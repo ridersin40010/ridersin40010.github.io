@@ -1,0 +1,4 @@
+# 制作中のたたき台。検索エンジンに拾わせない。
+# 本公開時にこのファイルを削除し、index.html の noindex メタタグも外すこと。
+User-agent: *
+Disallow: /
