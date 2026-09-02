@@ -40,7 +40,7 @@ DEFAULT_OUTPUTS = [
 ]
 
 PASSWORD = "shimanto"
-REVIEW_DATE = "2026-08-25"
+REVIEW_DATE = "2026-09-02"
 
 # 上端の帯の文言。ここを書き換えれば帯の中身が変わる
 REVIEW_NOTE = """

@@ -434,6 +434,8 @@ table {
 .hero-bar-price span {
   font-size: .84rem;
   color: var(--ink-70);
+  /* スマホで「年中無休」が行またぎで割れていたので、この塊は折らない */
+  white-space: nowrap;
 }
 
 /* --- 電話ボタン --- */
