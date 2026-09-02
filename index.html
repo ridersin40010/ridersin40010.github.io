@@ -4,73 +4,190 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="高知県四万十町の宿泊施設「ライダーズイン四万十」。独立した16棟のキャビンは全室シャワー・温水洗浄トイレ付き。1泊素泊まり3,300円〜。ご予約はお電話で 0880-28-5858。">
+  <meta name="description"
+    content="高知県四万十町の宿泊施設「ライダーズイン四万十」。四万十川のほとりに独立した16棟のキャビン。全室シャワー・温水洗浄トイレ付きの完全個室。1泊素泊まり3,300円〜。ご予約はお電話で 0880-28-5858。">
   <!-- 制作中のたたき台のため検索避け。本公開時にこの1行と robots.txt を削除する -->
   <meta name="robots" content="noindex, nofollow">
-  <title>ライダーズイン四万十 | 高知県四万十町の宿泊施設</title>
+  <title>ライダーズイン四万十 | 高知県四万十町・四万十川のほとりの宿</title>
+  <link rel="icon" href="./images/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@500;600;700;800&family=Zen+Maru+Gothic:wght@500;700;900&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 
 <body>
 
-  <!-- ナビゲーション -->
+  <!-- ============ アイコン定義（表示されません） ============ -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-cabin" viewBox="0 0 24 24">
+      <path d="M3 21V11a9 9 0 0 1 18 0v10z" />
+      <path d="M9.5 21v-6a2.5 2.5 0 0 1 5 0v6" />
+    </symbol>
+    <symbol id="i-shower" viewBox="0 0 24 24">
+      <path d="M6 21V6a3 3 0 0 1 6 0v1" />
+      <path d="M8 9h11l-2.2 3.2H10.2z" />
+      <path d="M11 16v1.5M14.5 15.5V17M17.5 16.5V18" />
+    </symbol>
+    <symbol id="i-aircon" viewBox="0 0 24 24">
+      <rect x="2.5" y="5" width="19" height="7" rx="2" />
+      <path d="M6 15c1.2 1.4 2.4 1.4 3.6 0M12 15.5c1.2 1.4 2.4 1.4 3.6 0M9 19c1.2 1.4 2.4 1.4 3.6 0" />
+    </symbol>
+    <symbol id="i-moto" viewBox="0 0 24 24">
+      <circle cx="5" cy="16.5" r="3.4" />
+      <circle cx="19" cy="16.5" r="3.4" />
+      <path d="M5 16.5l4-6h6l1.8 3M9.5 10.5h6.5M13 8.5h3.5l2.5 8" />
+    </symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24">
+      <path d="M2.5 8.8a14 14 0 0 1 19 0" />
+      <path d="M6 12.4a9 9 0 0 1 12 0" />
+      <path d="M9.4 16a4.2 4.2 0 0 1 5.2 0" />
+      <circle cx="12" cy="19.4" r="1.1" class="fill" />
+    </symbol>
+    <symbol id="i-parking" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="18" height="18" rx="4.5" />
+      <path d="M9.5 17V7.5h3.2a3 3 0 0 1 0 6H9.5" />
+    </symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24">
+      <path
+        d="M6.2 3.5h3l1.6 4-2 1.5a12.5 12.5 0 0 0 6.2 6.2l1.5-2 4 1.6v3a2 2 0 0 1-2.2 2C10.6 19.2 4.8 13.4 4.2 5.7a2 2 0 0 1 2-2.2z" />
+    </symbol>
+    <symbol id="i-pay" viewBox="0 0 24 24">
+      <rect x="2.5" y="5.5" width="19" height="13" rx="2.5" />
+      <path d="M2.5 10h19" />
+      <path d="M8 14.5h3" />
+    </symbol>
+    <symbol id="i-food" viewBox="0 0 24 24">
+      <path d="M3 13h18a9 9 0 0 1-18 0z" />
+      <path d="M2 20.5h20" />
+      <path d="M9 9.5c0-2 1.5-2 1.5-3.5S9 3.5 9 3.5M14 9.5c0-2 1.5-2 1.5-3.5S14 3.5 14 3.5" />
+    </symbol>
+    <symbol id="i-store" viewBox="0 0 24 24">
+      <path d="M3.5 9.5V20h17V9.5" />
+      <path d="M2 9.5L4 4h16l2 5.5a3 3 0 0 1-5 0 3 3 0 0 1-5 0 3 3 0 0 1-5 0 3 3 0 0 1-5 0z" />
+      <path d="M9.5 20v-5.5h5V20" />
+    </symbol>
+    <symbol id="i-nosmoke" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M5.6 18.4L18.4 5.6" />
+      <path d="M6.5 11.5h8v3h-8z" />
+    </symbol>
+    <symbol id="i-bath" viewBox="0 0 24 24">
+      <path d="M2.5 12h19v3a4 4 0 0 1-4 4h-11a4 4 0 0 1-4-4z" />
+      <path d="M5.5 12V5.8a2 2 0 0 1 3.6-1.2" />
+      <path d="M5 21l1-2M19 21l-1-2" />
+    </symbol>
+    <symbol id="i-onsen" viewBox="0 0 24 24">
+      <path d="M2.5 14.5h19v1.5a4.5 4.5 0 0 1-4.5 4.5h-10a4.5 4.5 0 0 1-4.5-4.5z" />
+      <path d="M7.5 11c0-2.2 2-2.4 2-4.2S7.5 3.5 7.5 3.5M12 11c0-2.2 2-2.4 2-4.2S12 3.5 12 3.5M16.5 11c0-2.2 2-2.4 2-4.2s-2-3.3-2-3.3" />
+    </symbol>
+    <symbol id="i-fish" viewBox="0 0 24 24">
+      <path d="M2.5 12c3.5-4.6 7.5-6.5 11-6.5 4.2 0 7.2 3 8.5 6.5-1.3 3.5-4.3 6.5-8.5 6.5-3.5 0-7.5-1.9-11-6.5z" />
+      <path d="M6.5 8.2C6 9.6 6 14.4 6.5 15.8" />
+      <circle cx="17" cy="10.6" r="1" class="fill" />
+    </symbol>
+    <symbol id="i-fire" viewBox="0 0 24 24">
+      <path d="M12 21.5c-3.9 0-6.5-2.5-6.5-6 0-4.5 4.5-6 4.5-11 3 1.5 4 4 4 6 1-1 1.5-2 1.5-3.5 2 2 3 4.6 3 8.5 0 3.5-2.6 6-6.5 6z" />
+      <path d="M12 21.5c-1.9 0-3-1.3-3-3s1.5-2.5 1.5-4.5c1.6.8 2.2 2 2.2 3 .6-.5.8-1 .8-1.8 1 1 1.5 2 1.5 3.3 0 1.7-1.1 3-3 3z" />
+    </symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 6.8V12l3.4 2.2" />
+    </symbol>
+    <symbol id="i-insta" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="18" height="18" rx="5.2" />
+      <circle cx="12" cy="12" r="4.2" />
+      <circle cx="17.2" cy="6.8" r="1.1" class="fill" />
+    </symbol>
+    <symbol id="i-fb" viewBox="0 0 24 24">
+      <path d="M14.8 21v-8h2.7l.5-3.4h-3.2V7.4c0-1 .4-1.7 1.9-1.7H18V2.6A24 24 0 0 0 15.4 2.5C13 2.5 11.4 4 11.4 6.9v2.7H8.6V13h2.8v8z" />
+    </symbol>
+  </svg>
+
+  <!-- ============ ヘッダー ============ -->
   <header class="site-header">
-    <nav class="nav-inner">
-      <div class="logo">
-        <span class="logo-sub">高知県四万十町・宿泊施設</span>
-        <span class="logo-main">ライダーズイン四万十</span>
-      </div>
-      <ul class="nav-links">
-        <li><a href="#about">宿について</a></li>
-        <li><a href="#cabin">キャビン</a></li>
-        <li><a href="#common">共用スペース</a></li>
-        <li><a href="#price">料金</a></li>
-        <li><a href="#info">ご利用案内</a></li>
-        <li><a href="#access">アクセス</a></li>
-      </ul>
-      <a href="tel:0880-28-5858" class="nav-tel">📞 0880-28-5858</a>
-    </nav>
+    <div class="nav-inner">
+      <a href="#hero" class="brand" aria-label="ライダーズイン四万十">
+        <img src="./images/logo-mark.svg" alt="" class="brand-mark">
+        <span class="brand-lockup">
+          <span class="brand-roman">
+            <span class="r1">Rider's <em>Inn</em></span>
+            <span class="r2">Shimanto</span>
+          </span>
+          <span class="brand-jp">ライダーズイン四万十</span>
+        </span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#about">宿について</a></li>
+          <li><a href="#cabin">キャビン</a></li>
+          <li><a href="#common">共用スペース</a></li>
+          <li><a href="#price">料金</a></li>
+          <li><a href="#info">ご利用案内</a></li>
+          <li><a href="#access">アクセス</a></li>
+        </ul>
+      </nav>
+      <a href="tel:0880-28-5858" class="nav-tel">
+        <svg class="ico"><use href="#i-phone" /></svg>
+        <span>0880-28-5858</span>
+      </a>
+    </div>
   </header>
 
-  <!-- ヒーロー -->
+  <!-- ============ ヒーロー ============ -->
   <section class="hero" id="hero">
-    <img src="./images/room-arch.jpg" alt="天然木のフローリングとアーチ天井、大きな窓のあるキャビンの中" class="hero-bg">
-    <div class="hero-overlay"></div>
+    <img src="./images/flyer-hero-river.jpg" alt="四万十川のほとりに建つライダーズイン四万十の空撮" class="hero-bg">
+    <span class="hero-watermark" aria-hidden="true">RS</span>
+    <div class="hero-scrim"></div>
+
     <div class="hero-inner">
-      <p class="hero-tag">高知県四万十町・四万十川のほとり</p>
-      <h1 class="hero-title">ライダーズイン四万十</h1>
+      <div class="hero-mark">
+        <p class="hero-roman"><span>Rider's</span><span class="mid">Inn</span><span class="big">Shimanto</span></p>
+      </div>
       <p class="hero-catch">
-        独立した16棟のキャビン。全室シャワー・トイレ付き。<br>
-        バイクでも、車でも、自転車でも、歩きでも。<br>
-        ほろ酔いで千鳥足の方も、どなた様でもお泊りいただけます。
+        四万十川のほとりで泊まる。<br>
+        四万十川と一緒に眠る。
       </p>
-      <div class="hero-cta">
+    </div>
+
+    <div class="hero-bar">
+      <div class="hero-bar-inner">
+        <p class="hero-bar-price">1泊素泊まり <strong>お一人様 3,300円</strong><span>（税込）／ 年中無休</span></p>
         <a href="tel:0880-28-5858" class="btn-tel">
-          <span class="btn-tel-label">ご予約・お問い合わせ</span>
-          <span class="btn-tel-num">0880-28-5858</span>
-          <span class="btn-tel-note">ご予約はお電話のみとなっております</span>
+          <svg class="ico"><use href="#i-phone" /></svg>
+          <span class="btn-tel-body">
+            <span class="btn-tel-label">ご予約は電話でお願いいたします！</span>
+            <span class="btn-tel-num">0880-28-5858</span>
+          </span>
         </a>
       </div>
-      <p class="hero-price">1泊素泊まり <strong>お一人様 3,300円</strong>（税込）／ 年中無休</p>
     </div>
   </section>
 
-  <!-- 宿について -->
+  <!-- ============ キャッチ帯 ============ -->
+  <section class="catchband">
+    <div class="container">
+      <h2 class="catchband-title">四万十川がギュッと詰まった旅を！<span class="amp">&amp;</span>お財布にやさしい旅を!!</h2>
+      <p class="catchband-sub">
+        <em>完全個室で、</em>各部屋トイレ・シャワー付き！自炊もできて、<em>宿泊費を抑えて、</em>共用スペース（囲炉裏）で交流も!!
+      </p>
+      <div class="dot-rule"></div>
+    </div>
+  </section>
+
+  <!-- ============ 宿について ============ -->
   <section class="about" id="about">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">About</span>
-        <h2 class="section-title">「ライダーズイン」という名前ですが、<br>どなた様でもお泊りいただけます</h2>
+        <h2 class="section-title">「ライダーズイン」という名ですが、<br>どなた様でもお泊まりいただけます</h2>
       </div>
       <div class="about-body">
         <div class="about-text">
           <p class="about-lead">
-            バイクのお客様だけではなく、<strong>徒歩や車・自転車・ほろ酔いで千鳥足の方も</strong>。どなた様でもお泊りいただける宿です。
+            バイクのお客様だけではなく、<strong>徒歩や車・自転車の方も</strong>。どなた様でもお泊まりいただける宿です。
           </p>
           <p>
             四万十川のほとりに建つ、<strong>独立した16棟のキャビン</strong>。全室にシャワーと温水洗浄トイレを備えた完全個室です。共用スペースには囲炉裏とキッチンがあり、食材を持ち込んでの自炊も、宿泊者どうしの交流も楽しめます。
@@ -83,110 +200,130 @@
           </p>
         </div>
         <div class="about-img-wrap">
-          <img src="./images/exterior.jpg" alt="ライダーズイン四万十の外観。かまぼこ型のキャビンが並ぶ" class="about-photo">
+          <figure class="ph">
+            <img src="./images/exterior.jpg" alt="かまぼこ型のキャビンが並ぶライダーズイン四万十の外観">
+            <figcaption>四万十川のほとり。かまぼこ型のキャビンが16棟</figcaption>
+          </figure>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- キャビン -->
+  <!-- ============ キャビン ============ -->
   <section class="cabin" id="cabin">
     <div class="container">
-      <div class="section-header light">
+      <div class="section-header">
         <span class="section-tag">Cabin</span>
-        <h2 class="section-title">キャビン（客室）</h2>
+        <h2 class="section-title">宿泊スペース</h2>
+        <p class="section-lead">独立した16のキャビン。玄関に駐輪できます</p>
       </div>
 
       <div class="rooms-photos">
-        <figure class="room-photo large">
+        <figure class="ph large">
           <img src="./images/room-futon.jpg" alt="約6畳の天然木フローリングのキャビン内部。大きな窓から山と田んぼが見える">
-          <figcaption>約6畳の天然木フローリング。全室南向きで陽当たり抜群</figcaption>
+          <figcaption>玄関を入ると、約6畳の天然木のフローリング。陽当たり抜群の明るいお部屋</figcaption>
         </figure>
-        <figure class="room-photo">
-          <img src="./images/toilet.jpg" alt="キャビン内の温水洗浄トイレと洗面台">
+        <figure class="ph">
+          <img src="./images/flyer-lodge-exterior.jpg" alt="アーチ屋根のキャビンが並ぶ宿泊スペースの外観">
+          <figcaption>独立した16のキャビン。玄関に駐輪できます</figcaption>
+        </figure>
+        <figure class="ph">
+          <img src="./images/toilet.jpg" alt="キャビン内の金属の円筒の中にある洗面台と温水洗浄トイレ">
           <figcaption>室内の金属の円筒の中が、洗面台・トイレ・シャワールーム</figcaption>
-        </figure>
-        <figure class="room-photo">
-          <img src="./images/room-arch.jpg" alt="アーチ天井と大きな窓のあるキャビン内部">
-          <figcaption>玄関を入ると、明るいワンルーム</figcaption>
         </figure>
       </div>
 
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">🏠</div>
+          <svg class="ico feature-ico"><use href="#i-cabin" /></svg>
           <h3>独立した16棟の完全個室</h3>
-          <p>約6畳の天然木フローリング。全室南向きで、陽当たりのいいお部屋です。<br>1棟に4名様までお泊りいただけます。</p>
+          <p>約6畳の天然木フローリング。全室南向きで、陽当たりのいいお部屋です。1棟に4名様までお泊まりいただけます。</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🚿</div>
+          <svg class="ico feature-ico"><use href="#i-shower" /></svg>
           <h3>シャワー・温水洗浄トイレ付</h3>
-          <p>室内の金属の円筒の中が、洗面台とトイレとシャワールームになっています。<br><strong>※湯舟はありません。</strong></p>
+          <p>室内の金属の円筒の中が、洗面台とトイレとシャワールームになっています。<strong class="warn">※湯舟はありません</strong></p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">❄️</div>
+          <svg class="ico feature-ico"><use href="#i-aircon" /></svg>
           <h3>冷暖房完備</h3>
           <p>エアコン・カーテン完備。夏も冬も快適にお過ごしいただけます。</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🏍️</div>
+          <svg class="ico feature-ico"><use href="#i-moto" /></svg>
           <h3>玄関前に屋根付き駐輪</h3>
           <p>バイク・自転車は各キャビンの玄関前に停められます。屋根があるので雨の日も安心です。</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">📶</div>
+          <svg class="ico feature-ico"><use href="#i-wifi" /></svg>
           <h3>Free Wi-Fi</h3>
           <p>各キャビン・共用スペースともに、無料のWi-Fiをご利用いただけます。</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🅿️</div>
+          <svg class="ico feature-ico"><use href="#i-parking" /></svg>
           <h3>駐車スペース無料</h3>
-          <p>お車でお越しの方の駐車スペースも無料でご利用いただけます。</p>
+          <p>お車でお越しの方の駐車スペースも無料です。15台分ご用意しています。</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 共用スペース -->
+  <!-- ============ 共用スペース ============ -->
   <section class="common" id="common">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header light">
         <span class="section-tag">Common Space</span>
         <h2 class="section-title">共用スペース</h2>
+        <p class="section-lead sunomari">素泊まり以上の素泊まり！</p>
       </div>
+
       <div class="common-body">
-        <figure class="common-photo">
+        <figure class="ph common-photo">
           <img src="./images/irori.jpg" alt="約12畳の畳敷きの共用スペース。中央に横長の大きな囲炉裏">
-          <figcaption>約12畳の畳敷き。真ん中に横長の大きな囲炉裏</figcaption>
+          <figcaption>約12畳の畳敷きの真ん中に、横長の大きな囲炉裏</figcaption>
         </figure>
         <div class="common-text">
-          <p class="common-lead">
-            囲炉裏を囲んで、持ち込んだ食材を焼きながら。
+          <p class="common-lead">囲炉裏を囲んで、持ち込んだ食材を焼きながら。</p>
+          <p>
+            お持ち込みのお肉や魚、野菜を焼きながら、ゆったりとお食事を楽しめます。宿泊者どうしの交流が生まれるのも、この場所です。
           </p>
           <p>
-            約12畳の畳敷きの真ん中に、横長の大きな囲炉裏があります。お持ち込みのお肉や魚、野菜を焼きながら、ゆっくりお食事を楽しめます。宿泊者どうしの交流が生まれるのも、この場所です。
-          </p>
-          <p>
-            共用キッチンには、お鍋やフライパン、包丁などの調理道具、冷蔵庫・冷凍庫・炊飯器・電子レンジ・トースター・製氷機、さらに<strong>基本の調味料や食器類</strong>もそろっています。食材さえ持ち込めば、そのままお料理していただけます。
+            共用キッチンには、お鍋やフライパンはもちろん、包丁などの調理道具・冷蔵庫・炊飯器・電子レンジ・トースター、さらに<strong>調味料や食器類</strong>もそろっています。食材を持ち込んでのお料理ができます。
           </p>
           <p class="common-free">
-            囲炉裏・キッチン・炊飯器・電子レンジ・トースター・調味料・冷蔵庫・冷凍庫・食器類は、<strong>すべて無料</strong>でお使いいただけます。
+            囲炉裏・キッチン・炊飯器・電子レンジ・トースター・調味料・冷蔵庫・冷凍庫・製氷機・食器類は、<strong>すべて無料</strong>でお使いいただけます。
           </p>
-          <ul class="common-list">
-            <li><strong>コインランドリー</strong>（洗濯機 100円／乾燥機 1h 200円・洗剤付）大型なので長期滞在にも便利です</li>
-            <li><strong>サウナ</strong>もご利用いただけます（1名様 2時間 1,100円）</li>
-            <li><strong>お飲み物の販売</strong>：ビール・酎ハイ（ノンアルコールも）・焼酎・お茶</li>
-            <li>共用スペースにも冷暖房・温水洗浄トイレ・Free Wi-Fi があります</li>
-          </ul>
         </div>
       </div>
+
+      <div class="common-sub">
+        <figure class="ph lowres">
+          <img src="./images/flyer-common-kitchen.jpg" alt="冷蔵庫と調理台のある共用キッチン">
+          <figcaption>共用キッチン。調理道具も食器もそろっています</figcaption>
+        </figure>
+        <figure class="ph lowres">
+          <img src="./images/flyer-rice-cookers.jpg" alt="炊飯器・電子レンジ・トースターの並ぶ調理台">
+          <figcaption>炊飯器・電子レンジ・トースター</figcaption>
+        </figure>
+        <figure class="ph lowres">
+          <img src="./images/flyer-laundry.jpg" alt="洗濯機と乾燥機の並ぶコインランドリー">
+          <figcaption>大型の洗濯乾燥コインランドリー（洗剤付）</figcaption>
+        </figure>
+      </div>
+
+      <ul class="common-list">
+        <li><strong>コインランドリー</strong>（洗濯機 100円／乾燥機 1時間 200円・洗剤付）大型なので長期滞在にも便利です</li>
+        <li><strong>サウナ</strong>もご利用いただけます（1名様 2時間 1,100円）</li>
+        <li><strong>お飲み物の販売</strong>：ビール・酎ハイ（ノンアルコールも）・焼酎・お茶</li>
+        <li>共用スペースにも冷暖房・温水洗浄トイレ・Free Wi-Fi があります</li>
+      </ul>
     </div>
   </section>
 
-  <!-- 料金 -->
+  <!-- ============ 料金 ============ -->
   <section class="price" id="price">
     <div class="container">
-      <div class="section-header light">
+      <div class="section-header">
         <span class="section-tag">Price</span>
         <h2 class="section-title">ご利用料金</h2>
         <p class="section-lead">表示価格はすべて税込です</p>
@@ -194,17 +331,17 @@
 
       <div class="price-grid">
         <div class="price-block">
-          <h3 class="price-block-title">ご宿泊（キャビン1棟あたり・1泊素泊まり）</h3>
+          <h3 class="price-block-title">ご宿泊<small>（キャビン1棟あたり・1泊素泊まり）</small></h3>
           <table class="price-table stay">
             <tbody>
-              <tr><th>1名様</th><td class="price-yen">3,300円</td></tr>
-              <tr><th>2名様</th><td class="price-yen">5,500円</td></tr>
-              <tr><th>3名様</th><td class="price-yen">6,600円</td></tr>
-              <tr><th>4名様</th><td class="price-yen">7,700円</td></tr>
+              <tr><th>1名様</th><td class="price-yen">3,300<span>円</span></td></tr>
+              <tr><th>2名様</th><td class="price-yen">5,500<span>円</span></td></tr>
+              <tr><th>3名様</th><td class="price-yen">6,600<span>円</span></td></tr>
+              <tr><th>4名様</th><td class="price-yen">7,700<span>円</span></td></tr>
             </tbody>
           </table>
           <ul class="price-notes">
-            <li>1棟に4名様までお泊りいただけます</li>
+            <li>1棟に4名様までお泊まりいただけます</li>
             <li><strong>人数が増えるごとに、お一人様あたりの料金がお得になります</strong></li>
             <li>小・中学生は 550円引（お一人様あたり）／乳幼児は無料</li>
             <li class="price-caution">料金に布団セット（500円／1名分）は含まれておりません</li>
@@ -213,9 +350,9 @@
           <h3 class="price-block-title sub">その他</h3>
           <table class="price-table option">
             <tbody>
-              <tr><th>サウナ利用<small>（1名様／2時間）</small></th><td class="price-yen">1,100円</td></tr>
-              <tr><th>洗濯機<small>（洗剤付）</small></th><td class="price-yen">100円</td></tr>
-              <tr><th>乾燥機<small>（1時間）</small></th><td class="price-yen">200円</td></tr>
+              <tr><th>サウナ利用<small>（1名様／2時間）</small></th><td class="price-yen">1,100<span>円</span></td></tr>
+              <tr><th>洗濯機<small>（洗剤付）</small></th><td class="price-yen">100<span>円</span></td></tr>
+              <tr><th>乾燥機<small>（1時間）</small></th><td class="price-yen">200<span>円</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -224,16 +361,16 @@
           <h3 class="price-block-title">グッズ</h3>
           <table class="price-table option">
             <tbody>
-              <tr><th>布団セット<small>（掛け・敷布団・枕・毛布〈寒期〉）</small></th><td class="price-yen">500円</td></tr>
-              <tr><th>シュラフ</th><td class="price-yen">100円</td></tr>
-              <tr><th>お風呂セット<small>（シャンプー・リンス・ボディソープ）</small></th><td class="price-yen">200円</td></tr>
-              <tr><th>歯ブラシセット</th><td class="price-yen">200円 <span class="todo">要確認 200/300</span></td></tr>
-              <tr><th>タオル</th><td class="price-yen">100円</td></tr>
-              <tr><th>マスク</th><td class="price-yen">50円</td></tr>
-              <tr><th>BBQセット<small>（BBQコンロ・バーナー・トング）</small></th><td class="price-yen">500円</td></tr>
-              <tr><th>囲炉裏BBQ<small>（炭・網・トング）</small></th><td class="price-yen">1,000円 <span class="todo">要確認</span></td></tr>
-              <tr><th>木炭</th><td class="price-yen">600円</td></tr>
-              <tr><th>氷<small>（飲食可）1盛</small></th><td class="price-yen">100円</td></tr>
+              <tr><th>布団セット<small>（掛け・敷布団・枕・毛布〈寒期〉）</small></th><td class="price-yen">500<span>円</span></td></tr>
+              <tr><th>シュラフ</th><td class="price-yen">100<span>円</span></td></tr>
+              <tr><th>お風呂セット<small>（シャンプー・リンス・ボディソープ）</small></th><td class="price-yen">200<span>円</span></td></tr>
+              <tr><th>歯ブラシセット</th><td class="price-yen">200<span>円</span> <span class="todo">要確認 200/300</span></td></tr>
+              <tr><th>タオル</th><td class="price-yen">100<span>円</span></td></tr>
+              <tr><th>マスク</th><td class="price-yen">50<span>円</span></td></tr>
+              <tr><th>BBQセット<small>（BBQコンロ・バーナー・トング）</small></th><td class="price-yen">500<span>円</span></td></tr>
+              <tr><th>囲炉裏BBQ<small>（炭・網・トング）</small></th><td class="price-yen">1,000<span>円</span> <span class="todo">要確認</span></td></tr>
+              <tr><th>木炭</th><td class="price-yen">600<span>円</span></td></tr>
+              <tr><th>氷<small>（飲食可）1盛</small></th><td class="price-yen">100<span>円</span></td></tr>
             </tbody>
           </table>
           <ul class="price-notes">
@@ -246,7 +383,7 @@
     </div>
   </section>
 
-  <!-- ご利用案内 -->
+  <!-- ============ ご利用案内 ============ -->
   <section class="info" id="info">
     <div class="container">
       <div class="section-header">
@@ -256,52 +393,54 @@
 
       <div class="checktime-card">
         <div class="checktime-item">
+          <svg class="ico"><use href="#i-clock" /></svg>
           <span class="checktime-label">チェックイン</span>
-          <span class="checktime-value">16:30〜</span>
-          <span class="checktime-note">20:00を過ぎる場合はご連絡をお願いします</span>
+          <span class="checktime-value">16:30<small>〜</small></span>
+          <span class="checktime-note">20:00を過ぎる時は連絡をお願いします</span>
         </div>
-        <div class="checktime-divider"></div>
+        <div class="checktime-divider" aria-hidden="true"></div>
         <div class="checktime-item">
+          <svg class="ico"><use href="#i-clock" /></svg>
           <span class="checktime-label">チェックアウト</span>
-          <span class="checktime-value">〜9:00</span>
+          <span class="checktime-value"><small>〜</small>9:00</span>
           <span class="checktime-note">年中無休（年末年始 12/28〜1/4 を除く）</span>
         </div>
       </div>
 
       <div class="info-cards">
-        <div class="info-card">
-          <div class="info-icon">📞</div>
+        <div class="info-card accent">
+          <svg class="ico info-ico"><use href="#i-phone" /></svg>
           <h3>ご予約は電話のみ</h3>
-          <p>ご予約は<strong>お電話のみ</strong>で承っております。<br>空室状況により当日のご予約も可能です。</p>
+          <p>ご予約は<strong>お電話のみ</strong>で承っております。空室状況により当日のご予約も可能です。</p>
           <a href="tel:0880-28-5858" class="info-tel">0880-28-5858</a>
         </div>
         <div class="info-card">
-          <div class="info-icon">💴</div>
+          <svg class="ico info-ico"><use href="#i-pay" /></svg>
           <h3>お支払い方法</h3>
           <p>当日受付にて <strong>現金</strong> または <strong>PayPay</strong> のみとなります。</p>
         </div>
         <div class="info-card">
-          <div class="info-icon">🍙</div>
+          <svg class="ico info-ico"><use href="#i-food" /></svg>
           <h3>お食事はご準備ください</h3>
-          <p>食事の提供はございません。食材をお持ち込みいただければ、共用キッチンと囲炉裏で自炊していただけます。</p>
+          <p>食事の提供はありませんが、共用キッチンと囲炉裏で自炊していただけます。食材をお持ち込みください。</p>
         </div>
         <div class="info-card highlight">
-          <div class="info-icon">🏪</div>
-          <h3>近くにコンビニはありません</h3>
-          <p><strong>最寄りのコンビニは50km先</strong>です。3kmのところに小さなスーパーマーケット（19時閉店）がありますので、お買い物はお早めに。</p>
+          <svg class="ico info-ico"><use href="#i-store" /></svg>
+          <h3>近くにコンビニはありません！</h3>
+          <p><strong>最寄りのコンビニは50km先です。</strong>でも3kmのところに小さなスーパーマーケット（19時閉店）があります。</p>
         </div>
         <div class="info-card">
-          <div class="info-icon">🚭</div>
+          <svg class="ico info-ico"><use href="#i-nosmoke" /></svg>
           <h3>施設内は禁煙です</h3>
           <p>屋外に喫煙スペースをご用意しております。</p>
         </div>
         <div class="info-card">
-          <div class="info-icon">🚿</div>
+          <svg class="ico info-ico"><use href="#i-bath" /></svg>
           <h3>湯舟はありません</h3>
-          <p>各キャビンにシャワーがございます。<br>サウナは1名様2時間1,100円でご利用いただけます。</p>
+          <p>各キャビンにシャワーがございます。サウナは1名様2時間1,100円でご利用いただけます。</p>
         </div>
         <div class="info-card onsen">
-          <div class="info-icon">♨️</div>
+          <svg class="ico info-ico"><use href="#i-onsen" /></svg>
           <h3>お風呂は十和温泉へ</h3>
           <p>ゆっくり湯船につかりたい方は、<strong>車で約5分</strong>の「清流四万十の里 十和温泉」へ。日帰り入浴ができます。</p>
           <dl class="onsen-list">
@@ -310,7 +449,7 @@
             <dt>定休日</dt>
             <dd>毎週月曜</dd>
             <dt>料金</dt>
-            <dd>大人700円／小人300円<br>タオル100円</dd>
+            <dd>大人700円／小人300円・タオル100円</dd>
           </dl>
           <a href="https://towaonsen.com/" class="onsen-link" target="_blank" rel="noopener noreferrer">十和温泉の公式サイト →</a>
           <p class="onsen-note">※最新の営業時間・料金は公式サイトでご確認ください</p>
@@ -319,56 +458,59 @@
     </div>
   </section>
 
-  <!-- 楽しみ方 -->
+  <!-- ============ 楽しみ方 ============ -->
   <section class="enjoy" id="enjoy">
     <div class="container">
       <div class="section-header light">
-        <span class="section-tag">Enjoy</span>
+        <span class="section-tag">Information</span>
         <h2 class="section-title">四万十を、めいっぱい</h2>
       </div>
       <div class="enjoy-body">
-        <figure class="enjoy-photo">
+        <figure class="ph enjoy-photo">
           <img src="./images/ayu-bbq.jpg" alt="囲炉裏で炭火焼きにされる鮎">
+          <figcaption>囲炉裏で焼く、四万十川の鮎</figcaption>
         </figure>
         <div class="enjoy-text">
           <div class="enjoy-item">
-            <h3>🎣 四万十川の鮎釣り</h3>
-            <p>
-              受付で<strong>遊漁券（鑑札）を販売</strong>しています。近隣に「おとり店」も数店あり、絶好の釣りポイントもご案内できます。
-            </p>
+            <h3><svg class="ico"><use href="#i-fish" /></svg>四万十川の鮎釣り</h3>
+            <ul class="tick-list">
+              <li>遊漁券（鑑札）を販売しています</li>
+              <li>近隣に「おとり店」が数店あります</li>
+              <li>絶好の釣りポイントの案内もしています</li>
+            </ul>
             <p class="enjoy-caution">
               ※解禁・禁漁期間にご注意ください。解禁日は年・地域によって異なりますので、必ず事前にご確認ください。
             </p>
           </div>
           <div class="enjoy-item">
-            <h3>🛵 カブ寄り合い（カブミーティング）</h3>
-            <p>年に2回、カブ乗りの寄り合いを開催しています。開催日程はSNSでお知らせします。</p>
+            <h3><svg class="ico"><use href="#i-moto" /></svg>Cub寄り合い（カブミーティング）</h3>
+            <p>年2回やってます！ 開催日程はSNSでお知らせします。</p>
           </div>
           <div class="enjoy-item">
-            <h3>🔥 囲炉裏を囲んで</h3>
+            <h3><svg class="ico"><use href="#i-fire" /></svg>囲炉裏を囲んで</h3>
             <p>持ち込んだ食材を炭火で焼きながら、宿泊者どうしでゆっくり。ここでしか生まれない時間があります。</p>
           </div>
           <div class="enjoy-sns">
-            <p class="sns-guide">日々の様子はSNSで発信しています</p>
-            <a href="https://www.instagram.com/ridersin40010/" class="btn-instagram" target="_blank"
-              rel="noopener noreferrer">
-              <span class="insta-icon">📷</span>
-              <span>Instagram</span>
-            </a>
-            <a href="#" class="btn-facebook todo-link" target="_blank" rel="noopener noreferrer">
-              <span class="insta-icon">📘</span>
-              <span>Facebook［要URL］</span>
-            </a>
+            <p class="sns-guide">日々の様子はSNSで発信しています。ぜひこちらもご覧ください</p>
+            <div class="sns-btns">
+              <a href="https://www.instagram.com/ridersin40010/" class="btn-sns insta" target="_blank"
+                rel="noopener noreferrer">
+                <svg class="ico"><use href="#i-insta" /></svg><span>Instagram</span>
+              </a>
+              <a href="#" class="btn-sns fb todo-link" target="_blank" rel="noopener noreferrer">
+                <svg class="ico"><use href="#i-fb" /></svg><span>Facebook<em>［要URL］</em></span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- アクセス -->
+  <!-- ============ アクセス ============ -->
   <section class="access" id="access">
     <div class="container">
-      <div class="section-header light">
+      <div class="section-header">
         <span class="section-tag">Access</span>
         <h2 class="section-title">アクセス</h2>
       </div>
@@ -382,7 +524,7 @@
             <dt>営業</dt>
             <dd>年中無休<br><small>※年末年始（12/28〜1/4）を除く</small></dd>
             <dt>駐車場</dt>
-            <dd>無料<br>バイク・自転車は各キャビン玄関前に屋根付きで駐輪可</dd>
+            <dd>無料（15台）<br>バイク・自転車は各キャビン玄関前に屋根付きで駐輪可</dd>
           </dl>
         </div>
         <div class="access-map">
@@ -408,35 +550,47 @@
     </div>
   </section>
 
-  <!-- 予約 -->
+  <!-- ============ 予約 ============ -->
   <section class="reserve" id="reserve">
     <div class="container">
-      <h2 class="reserve-title">ご予約・お問い合わせ</h2>
-      <p class="reserve-lead">
-        ご予約はお電話のみとなっております。<br>
-        空室状況により当日のご予約も承ります。
-      </p>
+      <img src="./images/logo-mark.svg" alt="" class="reserve-mark">
+      <h2 class="reserve-title">ご予約は電話でお願いいたします！</h2>
+      <p class="reserve-lead">空室状況により当日のご予約も承ります。</p>
       <a href="tel:0880-28-5858" class="btn-tel large">
-        <span class="btn-tel-label">お電話はこちら</span>
-        <span class="btn-tel-num">0880-28-5858</span>
+        <svg class="ico"><use href="#i-phone" /></svg>
+        <span class="btn-tel-body">
+          <span class="btn-tel-num">0880-28-5858</span>
+        </span>
       </a>
       <p class="reserve-note">年中無休（年末年始 12/28〜1/4 を除く）</p>
     </div>
   </section>
 
-  <!-- フッター -->
+  <!-- ============ フッター ============ -->
   <footer class="site-footer">
     <div class="footer-inner">
-      <div class="footer-logo">ライダーズイン四万十</div>
+      <img src="./images/logo-full.svg" alt="RIDER'S INN SHIMANTO" class="footer-logo">
+      <p class="footer-jp">ライダーズイン四万十</p>
       <p class="footer-desc">〒786-0533 高知県高岡郡四万十町井﨑4-1 ／ TEL 0880-28-5858</p>
       <p class="footer-desc">年中無休（年末年始 12/28〜1/4 を除く）</p>
+      <div class="footer-sns">
+        <a href="https://www.instagram.com/ridersin40010/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg class="ico"><use href="#i-insta" /></svg>
+        </a>
+        <a href="#" class="todo-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg class="ico"><use href="#i-fb" /></svg>
+        </a>
+      </div>
       <!-- 本公開時に削除する -->
-      <p class="footer-draft">※このページは制作中のたたき台です。内容は確定ではありません。</p>
+      <p class="footer-draft">※このページは制作中のたたき台です。内容・デザインは確定ではありません。</p>
     </div>
   </footer>
 
   <!-- スマホ用 固定電話ボタン -->
-  <a href="tel:0880-28-5858" class="fixed-tel">📞 電話で予約する</a>
+  <a href="tel:0880-28-5858" class="fixed-tel">
+    <svg class="ico"><use href="#i-phone" /></svg>
+    <span>電話で予約する</span>
+  </a>
 
   <script src="script.js"></script>
 </body>
