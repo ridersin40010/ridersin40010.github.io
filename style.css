@@ -13,6 +13,8 @@
   --green-deep: #2B5C38;
   /* 見出しの濃緑 */
   --green-dark: #004a2c;
+  --green-mark: #235A23;
+  /* カンプの見出し緑（チラシの #00643C より濃い） */
   --green-pale: #eaf2ed;
   --green-mist: #f4f8f6;
 
@@ -77,6 +79,54 @@ body {
   background: var(--paper);
   font-feature-settings: "palt" 1;
   overflow-x: hidden;
+  /* 長音符「ー」や小書き仮名が行頭に来るのを止める（禁則） */
+  line-break: strict;
+}
+
+/* 日本語を文節で折り返し、最終行に1〜2文字だけ残るのを避ける。
+   未対応ブラウザでは既定の折り返しに戻るだけなので、入れて損はない */
+p,
+li,
+dd,
+dt,
+th,
+td,
+figcaption,
+.lead-sub,
+.hero2-catch {
+  word-break: auto-phrase;
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+.section-title,
+.price-block-title,
+.reserve-title,
+.lead-title,
+.sec-jp {
+  word-break: auto-phrase;
+  text-wrap: balance;
+}
+
+/* 電話番号・価格・固有名詞など、途中で切ってはいけないもの */
+.nb {
+  white-space: nowrap;
+}
+
+/* グリッドの子は既定で min-width:auto のため、中身の最小幅でトラックごと
+   押し広げられる。320pxで横スクロールが出ていた原因はこれ */
+.price-grid > *,
+.enjoy-body > *,
+.common-body > *,
+.access-body > *,
+.features-grid > *,
+.info-cards > *,
+.rooms-photos > *,
+.common-sub > *,
+.duo > * {
+  min-width: 0;
 }
 
 img {
@@ -277,38 +327,19 @@ table {
   transform: scaleX(1);
 }
 
-.nav-tel {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--green);
-  color: #fff;
-  font-family: var(--jp-round);
-  font-weight: 700;
-  font-size: 1.02rem;
-  letter-spacing: .04em;
-  padding: 10px 20px;
-  transition: background .2s, transform .2s;
-}
-
-.nav-tel:hover {
-  background: var(--green-dark);
-  transform: translateY(-1px);
-}
-
 /* ==================================================================
-   ヒーロー
-   チラシ表紙の再現：四万十川の空撮＋巨大なRS＋明朝の白コピー
+   ヒーロー①・② ／ リード
+   大村さんのカンプ（2026 riders hp.pdf・1280pt幅）から実測して再現している。
+   カンプの数値はコメントに残す。直すときはカンプと突き合わせること。
    ================================================================== */
+
+/* --- ヒーロー① 四万十川の空撮（カンプ y-35〜825＝高さ860） --- */
 .hero {
   position: relative;
-  min-height: clamp(520px, 78vh, 760px);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  width: 100%;
+  aspect-ratio: 1280 / 860;
   overflow: hidden;
-  background: #10333f;
+  background: #0e2b33;
 }
 
 .hero-bg {
@@ -317,128 +348,172 @@ table {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 42%;
+  object-position: center 46%;
 }
 
-.hero-scrim {
+.hero-lockup {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(to top, rgba(4, 30, 42, .68) 0%, rgba(4, 30, 42, .12) 45%, rgba(4, 30, 42, .3) 100%);
+  pointer-events: none;
 }
 
-/* チラシの 247pt Trajan「RS」ウォーターマーク */
-.hero-watermark {
+/* 巨大RS：カンプは TrajanPro-Bold 436pt（＝34.1vw）・x54〜636・y136 */
+.hero-rs {
   position: absolute;
-  top: -.16em;
-  right: 2%;
+  /* 字送りを0にすると字の幅がカンプの45.5%とぴったり合う（Cinzelは
+     Trajanより細いので、詰めずに置くのが正解だった）。
+     top はブラウザで実測して、字の上端がカンプの15.8%に来る値に調整済み */
+  left: 3.8%;
+  top: 11.5%;
   font-family: var(--roman);
   font-weight: 700;
-  font-size: clamp(15rem, 34vw, 34rem);
+  font-size: 34.1vw;
   line-height: 1;
-  color: rgba(255, 255, 255, .19);
-  letter-spacing: -.04em;
-  pointer-events: none;
-  user-select: none;
+  letter-spacing: 0;
+  /* カンプPDFのグラフィックス状態が ca 0.55。実測値に合わせている */
+  color: rgba(255, 255, 255, .55);
+  white-space: nowrap;
 }
 
-.hero-inner {
-  position: relative;
-  z-index: 2;
-  width: min(100% - 40px, var(--wrap));
-  margin-inline: auto;
-  padding-bottom: 44px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-  gap: 26px;
-}
-
-.hero-mark {
-  display: flex;
-  justify-content: flex-end;
-}
-
+/* ワードマーク：カンプは x218〜529（中心29.2%）・y305〜485 */
 .hero-roman {
+  position: absolute;
+  left: 0;
+  top: 34.5%;
+  width: 58.4%;
+  text-align: center;
   font-family: var(--roman);
   font-weight: 700;
   color: #fff;
   line-height: 1.06;
-  letter-spacing: .09em;
-  text-shadow: 0 2px 20px rgba(0, 20, 30, .5);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
+  letter-spacing: .04em;
+  text-shadow: 0 2px 22px rgba(0, 25, 35, .38);
 }
 
 .hero-roman span {
+  display: block;
   text-transform: uppercase;
-  font-size: clamp(1.5rem, 3.1vw, 2.5rem);
 }
 
-.hero-roman .mid {
-  font-size: clamp(1.15rem, 2.3vw, 1.85rem);
-  padding-left: .5em;
+/* カンプの頭文字は 67pt、続く文字は 47pt（＝1.43倍） */
+.hero-roman em {
+  font-style: normal;
+  font-size: 1.43em;
+  line-height: .8;
 }
 
-.hero-roman .big {
-  font-size: clamp(2.1rem, 4.6vw, 3.7rem);
+.hero-roman .l1 { font-size: 3.67vw; }
+.hero-roman .l2 { font-size: 2.66vw; padding-left: .4em; }
+.hero-roman .l3 { font-size: 3.67vw; }
+
+/* --- ヒーロー② キャビン群の空撮＋キャッチ（カンプ y717〜1562＝高さ845） --- */
+.hero2 {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1280 / 845;
+  overflow: hidden;
+  background: #0e2b33;
 }
 
-.hero-catch {
+.hero2-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 52%;
+}
+
+/* カンプ：明朝30pt 白・中央・字送り +0.27em・y1242/1292（写真の上から62%） */
+.hero2-catch {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 60.7%;
+  text-align: center;
   font-family: var(--jp-mincho);
   font-weight: 500;
-  font-size: clamp(1.25rem, 2.7vw, 2.05rem);
-  line-height: 1.85;
+  font-size: clamp(.98rem, 2.34vw, 1.88rem);
+  line-height: 1.7;
+  letter-spacing: .27em;
+  text-indent: .135em;
   color: #fff;
-  letter-spacing: .1em;
-  text-shadow: 0 2px 18px rgba(0, 20, 30, .5);
+  /* 細い明朝を太らせたくないので、輪郭線ではなく極小のにじみで縁を作る */
+  text-shadow: 0 0 3px rgba(0, 24, 38, .6), 0 2px 22px rgba(0, 30, 45, .5);
 }
 
-/* ヒーロー下の帯 */
-.hero-bar {
-  position: relative;
-  z-index: 2;
-  background: rgba(255, 255, 255, .95);
-  backdrop-filter: blur(6px);
-  border-top: 3px solid var(--blue);
+/* --- リード（カンプ y1579〜2600・白地・すべて中央揃え） --- */
+.lead {
+  background: var(--paper);
+  text-align: center;
+  padding: clamp(44px, 6.5vw, 88px) 20px clamp(30px, 4vw, 50px);
 }
 
-.hero-bar-inner {
-  width: min(100% - 40px, var(--wrap));
-  margin-inline: auto;
-  padding: 16px 0;
+.lead-logo {
+  width: clamp(58px, 5.6vw, 76px);
+  margin: 0 auto clamp(22px, 3.2vw, 40px);
+}
+
+/* カンプ：明朝36pt 字送り+0.17em／「なのに」だけ28pt 字送り+0.13em */
+.lead-title {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
+  gap: clamp(10px, 1.6vw, 20px);
+  font-family: var(--jp-mincho);
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.5;
 }
 
-.hero-bar-price {
-  font-family: var(--jp-round);
-  font-weight: 500;
-  font-size: 1rem;
+.lead-title .big {
+  font-size: clamp(1.16rem, 2.81vw, 2.25rem);
+  letter-spacing: .17em;
+  text-indent: .085em;
+}
+
+.lead-title .mid {
+  font-size: clamp(.94rem, 2.19vw, 1.75rem);
+  letter-spacing: .13em;
+  text-indent: .065em;
+}
+
+.lead-title.solo {
+  margin-top: clamp(26px, 3.6vw, 46px);
+}
+
+/* カンプ：小塚ゴシック Light 22pt 字送り+0.10em */
+/* 梟さん指定の改行。ただしPC（1280px）では2行とも1行に収まり、
+   カンプでも1行なので、スマホ幅のときだけ改行させる */
+.br-sp {
+  display: none;
+}
+
+.lead-sub {
+  margin-top: clamp(14px, 2.2vw, 26px);
+  font-family: var(--jp-sans);
+  font-weight: 400;
+  font-size: clamp(.82rem, 1.72vw, 1.34rem);
+  line-height: 1.95;
+  letter-spacing: .1em;
+  text-indent: .05em;
   color: var(--ink);
 }
 
-.hero-bar-price strong {
-  font-weight: 900;
-  font-size: 1.32rem;
-  color: var(--green);
-  letter-spacing: .01em;
+/* --- ふちが白に溶ける写真（カンプ y1996〜2493・幅748＝58.4%） --- */
+.fade-photo {
+  width: min(58.4%, 780px);
+  margin: clamp(30px, 4.2vw, 58px) auto 0;
 }
 
-.hero-bar-price span {
-  font-size: .84rem;
-  color: var(--ink-70);
-  /* スマホで「年中無休」が行またぎで割れていたので、この塊は折らない */
-  white-space: nowrap;
+.fade-photo img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  -webkit-mask-image: radial-gradient(ellipse 76% 78% at 50% 50%, #000 44%, transparent 94%);
+  mask-image: radial-gradient(ellipse 76% 78% at 50% 50%, #000 44%, transparent 94%);
 }
 
-/* --- 電話ボタン --- */
 .btn-tel {
   display: inline-flex;
   align-items: center;
@@ -480,6 +555,7 @@ table {
   font-weight: 900;
   font-size: 1.42rem;
   letter-spacing: .02em;
+  white-space: nowrap;
 }
 
 .btn-tel.large {
@@ -488,54 +564,13 @@ table {
 }
 
 .btn-tel.large .btn-tel-num {
-  font-size: clamp(1.9rem, 5vw, 2.5rem);
+  /* 下限を下げないと 320px で「0880-28-」「5858」に割れる */
+  font-size: clamp(1.42rem, 6.4vw, 2.5rem);
 }
 
 .btn-tel.large .ico {
   width: 1.9em;
   height: 1.9em;
-}
-
-/* ==================================================================
-   キャッチ帯（チラシ2ページ目の見出し）
-   ================================================================== */
-.catchband {
-  padding: 54px 0 8px;
-  background: var(--paper);
-  text-align: center;
-}
-
-.catchband-title {
-  font-family: var(--jp-mincho);
-  font-weight: 700;
-  font-size: clamp(1.32rem, 3.6vw, 2.55rem);
-  line-height: 1.5;
-  letter-spacing: .015em;
-  color: var(--ink);
-}
-
-.catchband-title .amp {
-  color: var(--blue);
-  padding: 0 .18em;
-  font-family: var(--roman);
-}
-
-.catchband-sub {
-  margin-top: 14px;
-  font-family: var(--jp-round);
-  font-weight: 700;
-  font-size: clamp(.92rem, 1.9vw, 1.16rem);
-  line-height: 1.75;
-  color: var(--ink);
-}
-
-.catchband-sub em {
-  font-style: normal;
-  color: var(--red);
-}
-
-.catchband .dot-rule {
-  margin-top: 30px;
 }
 
 /* ==================================================================
@@ -555,10 +590,15 @@ section {
   padding: 74px 0;
 }
 
-.cabin,
 .price,
 .access {
   background: var(--green-mist);
+}
+
+/* 宿泊スペースはカンプどおり白地。写真がフルブリードなので上の余白は無し */
+.cabin {
+  padding: 0 0 clamp(44px, 6vw, 74px);
+  background: var(--paper);
 }
 
 .common {
@@ -666,47 +706,79 @@ section {
 }
 
 /* ==================================================================
-   宿について
+   宿泊スペース（カンプ y2630〜3271）
    ================================================================== */
-.about-body {
+
+/* 写真2枚並び・フルブリード・隙間なし（カンプ：各667幅・高さ446） */
+.duo {
   display: grid;
-  grid-template-columns: 1.08fr .92fr;
-  gap: 46px;
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  width: 100%;
 }
 
-.about-text p {
-  margin-bottom: 17px;
-  font-size: .97rem;
+.duo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 667 / 446;
+  object-fit: cover;
 }
 
-.about-lead {
-  font-family: var(--jp-mincho);
-  font-weight: 600;
-  font-size: 1.18rem !important;
-  line-height: 1.95;
-  color: var(--green);
-  letter-spacing: .03em;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--line);
+/* セクション見出し：かまぼこ3つ＋英字。カンプの緑は #235A23 */
+.sec-mark {
+  text-align: center;
+  padding: clamp(38px, 5.4vw, 68px) 20px clamp(24px, 3.4vw, 44px);
 }
 
-.about-text strong {
+.sec-jp {
+  font-family: var(--jp-round);
   font-weight: 700;
-  color: var(--ink);
-  background: linear-gradient(transparent 62%, rgba(41, 144, 208, .22) 62%);
+  font-size: clamp(1.2rem, 2.81vw, 2.25rem);
+  letter-spacing: .17em;
+  text-indent: .085em;
+  line-height: 1.5;
+  color: var(--green-mark);
 }
 
-.about-note {
-  font-size: .85rem !important;
-  color: var(--ink-70);
-  background: var(--green-pale);
-  border-radius: var(--r);
-  padding: 13px 17px;
+.arches {
+  display: block;
+  width: clamp(62px, 6.6vw, 88px);
+  height: auto;
+  margin: clamp(11px, 1.5vw, 18px) auto clamp(2px, .4vw, 5px);
+  fill: var(--green-mark);
 }
 
-.about-img-wrap .ph img {
-  aspect-ratio: 4 / 3;
+.sec-en {
+  font-family: "Cabin", var(--jp-round), sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.28rem, 3.28vw, 2.62rem);
+  letter-spacing: .1em;
+  text-indent: .05em;
+  line-height: 1.1;
+  color: var(--green-mark);
+}
+
+.cabin-intro {
+  max-width: 660px;
+  margin: 0 auto clamp(30px, 4vw, 50px);
+  text-align: center;
+}
+
+.cabin-intro p {
+  font-size: .95rem;
+  line-height: 2.1;
+  letter-spacing: .04em;
+}
+
+.cabin-intro strong {
+  font-weight: 700;
+  color: var(--green);
+}
+
+.cabin-note {
+  margin-top: 18px;
+  font-size: .78rem !important;
+  line-height: 1.95 !important;
+  color: var(--ink-50);
 }
 
 /* ==================================================================
@@ -714,22 +786,19 @@ section {
    ================================================================== */
 .rooms-photos {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px;
   margin-bottom: 46px;
 }
 
-.rooms-photos .large {
-  grid-row: span 2;
-}
-
-.rooms-photos .large img {
-  aspect-ratio: 4 / 3.4;
+/* 4枚を2×2で。3枚だとPCで右下が空いてバランスが崩れる */
+.rooms-photos .ph img {
+  aspect-ratio: 4 / 3;
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
 }
 
@@ -825,7 +894,7 @@ section {
 
 .common-sub {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
   margin-bottom: 34px;
   /* 元データが来るまでは低解像度なので、拡大されないよう幅を抑える */
@@ -868,9 +937,11 @@ section {
    ================================================================== */
 .price-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 28px;
-  align-items: start;
+  /* align-items:start だと左右の箱の高さが揃わず、下枠が平行にならない。
+     stretch（既定）にして、高いほうに合わせる */
+  align-items: stretch;
 }
 
 .price-block {
@@ -910,6 +981,15 @@ section {
   border-bottom: 1px dotted #c9d4d1;
   text-align: left;
   vertical-align: middle;
+}
+
+/* 品名の列に幅を渡す。既定だと金額側が広がって、品名が3〜6行に割れていた */
+.price-table.option th {
+  width: 64%;
+}
+
+.price-table.option .price-yen {
+  width: 36%;
 }
 
 .price-table th {
@@ -1071,7 +1151,7 @@ section {
 
 .info-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
 }
 
@@ -1142,6 +1222,7 @@ section {
   font-size: 1.52rem;
   color: #fff;
   letter-spacing: .02em;
+  white-space: nowrap;
 }
 
 .info-card.highlight {
@@ -1231,6 +1312,8 @@ section {
   display: flex;
   align-items: center;
   gap: 11px;
+  min-width: 0;
+  flex-wrap: wrap;
   font-family: var(--jp-round);
   font-weight: 700;
   font-size: 1.14rem;
@@ -1398,6 +1481,7 @@ section {
   font-size: 1.6rem;
   color: var(--green);
   letter-spacing: .02em;
+  white-space: nowrap;
 }
 
 .access-map {
@@ -1488,7 +1572,7 @@ section {
   padding: 76px 0;
   background:
     linear-gradient(rgba(0, 74, 44, .9), rgba(0, 74, 44, .9)),
-    url("./images/flyer-hero-river.jpg") center/cover no-repeat;
+    url("./images/hero-river-aerial.jpg") center/cover no-repeat;
   text-align: center;
   color: #fff;
 }
@@ -1538,8 +1622,14 @@ section {
 .site-footer {
   background: var(--paper);
   border-top: 1px solid var(--line);
-  padding: 46px 0 100px;
+  padding: 46px 0;
   text-align: center;
+}
+
+/* 左右の余白が無く、375pxで文字が画面端まで伸びて電話番号が割れていた */
+.footer-inner {
+  width: min(100% - 40px, 720px);
+  margin-inline: auto;
 }
 
 .footer-logo {
@@ -1604,67 +1694,36 @@ section {
 }
 
 /* ==================================================================
-   スマホ固定電話ボタン
-   ================================================================== */
-.fixed-tel {
-  display: none;
-  position: fixed;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
-  z-index: 90;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: var(--green);
-  color: #fff;
-  font-family: var(--jp-round);
-  font-weight: 700;
-  font-size: 1.06rem;
-  padding: 15px;
-  box-shadow: 0 -2px 18px rgba(0, 74, 44, .3);
-}
-
-.fixed-tel .ico {
-  width: 1.3em;
-  height: 1.3em;
-}
-
-/* ==================================================================
    レスポンシブ
    ================================================================== */
 @media (max-width: 1024px) {
-  .nav-links {
-    display: none;
-  }
-
+  .nav-links,
   .brand-jp {
     display: none;
   }
 
   .nav-inner {
-    justify-content: space-between;
+    justify-content: center;
   }
 
-  .nav-tel {
-    margin-left: auto;
+  .site-header nav {
+    margin-left: 0;
   }
 
   .features-grid,
   .info-cards,
   .common-sub {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .info-card.onsen {
     grid-column: span 2;
   }
 
-  .about-body,
   .common-body,
   .enjoy-body,
   .access-body {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 32px;
   }
 
@@ -1673,7 +1732,7 @@ section {
   }
 
   .price-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -1682,90 +1741,84 @@ section {
     font-size: 15px;
   }
 
+  .br-sp {
+    display: inline;
+  }
+
+  /* カンプは写真が画面の一番上から始まる。スマホではヘッダーを出さない
+     （1ページものなので、スクロールで全部たどれる） */
   .site-header {
-    position: static;
+    display: none;
   }
 
-  .nav-inner {
-    height: 62px;
-  }
-
-  .brand-mark {
-    height: 40px;
-    width: 40px;
-  }
-
-  .brand-roman .r1 {
-    font-size: .68rem;
-  }
-
-  .brand-roman .r2 {
-    font-size: .92rem;
-  }
-
-  .nav-tel {
-    font-size: .92rem;
-    padding: 8px 15px;
-  }
-
+  /* ヒーローは横長のままだと写真が痩せるので、スマホでは縦長に切る */
   .hero {
-    min-height: 0;
+    aspect-ratio: 3 / 4;
   }
 
-  /* スマホでは写真を通常フローに置き、コピーは「写真の上だけ」に重ねる。
-     下の白い帯にかぶせると白文字が読めなくなるため、高さを写真と揃える */
-  .hero-bg,
-  .hero-scrim,
-  .hero-inner {
-    height: 62vw;
-    min-height: 280px;
+  .hero2 {
+    aspect-ratio: 4 / 5;
   }
 
-  .hero-bg {
-    position: relative;
+  /* スマホではロックアップを中央に置く（カンプの左寄せは1280幅の構図） */
+  .hero-rs {
+    left: 50%;
+    top: 26%;
+    transform: translateX(-50%);
+    font-size: 68vw;
   }
 
-  .hero-scrim {
-    bottom: auto;
-  }
-
-  .hero-watermark {
-    font-size: 40vw;
-    top: -.1em;
-    right: 4%;
-  }
-
-  .hero-inner {
-    position: absolute;
-    top: 0;
+  .hero-roman {
     left: 0;
-    right: 0;
-    bottom: auto;
-    justify-content: flex-end;
-    padding-bottom: 16px;
-    gap: 10px;
+    width: 100%;
+    top: 42%;
   }
 
+  .hero-roman .l1,
+  .hero-roman .l3 {
+    font-size: 7.4vw;
+  }
 
-  .hero-catch {
-    font-size: 1.02rem;
-    line-height: 1.7;
+  .hero-roman .l2 {
+    font-size: 5.4vw;
+  }
+
+  .hero2-catch {
+    /* 写真の明るさを実測：56%＝白い砂利の帯（明るさ118・明るい画素17%）で
+       白文字が埋もれる。62%＝川面のいちばん暗いところ（明るさ80・明るい画素0%）。
+       カンプの値も62.1%だった */
+    top: 62%;
+    font-size: 4.4vw;
+    letter-spacing: .22em;
+    text-indent: .11em;
+  }
+
+  .fade-photo {
+    width: min(84%, 460px);
+  }
+
+  .lead-title .big {
+    font-size: 5.3vw;
+    letter-spacing: .14em;
+    text-indent: .07em;
+  }
+
+  .lead-title .mid {
+    font-size: 4.2vw;
+  }
+
+  .lead-sub {
+    font-size: 3.7vw;
     letter-spacing: .06em;
+    text-indent: .03em;
   }
 
-  .hero-bar-inner {
-    padding: 14px 0 16px;
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
+  .sec-jp {
+    font-size: 5.3vw;
   }
 
-  .hero-bar-price {
-    font-size: .9rem;
-  }
-
-  .btn-tel {
-    justify-content: center;
+  .sec-en {
+    font-size: 6.4vw;
   }
 
   .about,
@@ -1775,11 +1828,18 @@ section {
   .info,
   .enjoy,
   .access {
-    padding: 50px 0;
+    padding-left: 0;
+    padding-right: 0;
   }
 
-  .catchband {
-    padding: 38px 0 8px;
+  .about,
+  .common,
+  .price,
+  .info,
+  .enjoy,
+  .access {
+    padding-top: 50px;
+    padding-bottom: 50px;
   }
 
   .section-header {
@@ -1790,7 +1850,7 @@ section {
   .info-cards,
   .common-sub,
   .rooms-photos {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
   }
 
@@ -1868,10 +1928,6 @@ section {
   }
 
   .site-footer {
-    padding-bottom: 96px;
-  }
-
-  .fixed-tel {
-    display: flex;
+    padding-bottom: 46px;
   }
 }
