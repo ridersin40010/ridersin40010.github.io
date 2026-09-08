@@ -13,8 +13,16 @@
   --green-deep: #2B5C38;
   /* 見出しの濃緑 */
   --green-dark: #004a2c;
+  /* --- カンプのセクション見出しの色（大村さん 2026-09-08 版で実測） --- */
   --green-mark: #235A23;
-  /* カンプの見出し緑（チラシの #00643C より濃い） */
+  /* 宿泊スペース Cabin */
+  --blue-mark: #55AAEB;
+  /* 共用スペース Shared area */
+  --brown-mark: #42210B;
+  /* ご利用料金 Price ／ 最上部の英字ストリップ */
+  --red-mark: #CB0000;
+  /* ご利用案内 Information */
+
   --green-pale: #eaf2ed;
   --green-mist: #f4f8f6;
 
@@ -351,9 +359,40 @@ table {
   object-position: center 46%;
 }
 
+/* カンプ最上部の英字ストリップ（y38・Trajan・茶）。
+   カンプでは写真の上端が白く霞んでいてそこに乗っている。Webでは切り抜きで
+   霞が消える場合があるので、同じ見え方になるよう薄い白のかぶせを一枚敷いている */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 22%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, .82), rgba(255, 255, 255, 0));
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-strip {
+  position: absolute;
+  z-index: 2;
+  top: 3.4%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--roman);
+  font-weight: 700;
+  font-size: clamp(.62rem, 2.42vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: .22em;
+  text-indent: .22em;
+  color: var(--brown-mark);
+  padding: 0 12px;
+}
+
 .hero-lockup {
   position: absolute;
   inset: 0;
+  z-index: 2;
   pointer-events: none;
 }
 
@@ -723,10 +762,24 @@ section {
   object-fit: cover;
 }
 
-/* セクション見出し：かまぼこ3つ＋英字。カンプの緑は #235A23 */
+/* セクション見出し：かまぼこ＋英字。カンプはセクションごとに色を変えている
+   宿泊スペース #235A23 ／ 共用スペース #55AAEB ／ ご利用料金 #42210B ／ ご利用案内 #CB0000 */
 .sec-mark {
+  --mark: var(--green-mark);
   text-align: center;
   padding: clamp(38px, 5.4vw, 68px) 20px clamp(24px, 3.4vw, 44px);
+}
+
+.sec-mark.blue {
+  --mark: var(--blue-mark);
+}
+
+.sec-mark.brown {
+  --mark: var(--brown-mark);
+}
+
+.sec-mark.red {
+  --mark: var(--red-mark);
 }
 
 .sec-jp {
@@ -736,15 +789,16 @@ section {
   letter-spacing: .17em;
   text-indent: .085em;
   line-height: 1.5;
-  color: var(--green-mark);
+  color: var(--mark, var(--green-mark));
 }
 
 .arches {
   display: block;
-  width: clamp(62px, 6.6vw, 88px);
+  /* カンプのかまぼこ群は1280px幅で約111px＝8.4vw */
+  width: clamp(70px, 8.4vw, 111px);
   height: auto;
   margin: clamp(11px, 1.5vw, 18px) auto clamp(2px, .4vw, 5px);
-  fill: var(--green-mark);
+  fill: var(--mark, var(--green-mark));
 }
 
 .sec-en {
@@ -754,7 +808,32 @@ section {
   letter-spacing: .1em;
   text-indent: .05em;
   line-height: 1.1;
-  color: var(--green-mark);
+  color: var(--mark, var(--green-mark));
+}
+
+/* 共用スペースの英字の下に並ぶ調理器具。カンプの字形をベクターで抜いたもの */
+.sec-utensils {
+  /* カンプでは1280px幅で242px＝18.9vw */
+  width: clamp(160px, 18.9vw, 242px);
+  height: auto;
+  margin: clamp(9px, 1.2vw, 15px) auto 0;
+}
+
+/* ご利用料金の ¥。これもカンプの字形 */
+.sec-yen {
+  /* カンプでは1280px幅で54px＝4.2vw */
+  width: clamp(26px, 4.2vw, 54px);
+  height: auto;
+  margin: clamp(6px, .9vw, 12px) auto clamp(2px, .5vw, 7px);
+}
+
+.sec-note {
+  margin-top: clamp(8px, 1.1vw, 14px);
+  font-family: var(--jp-round);
+  font-weight: 500;
+  font-size: clamp(.78rem, 1.6vw, .95rem);
+  letter-spacing: .06em;
+  color: var(--mark, var(--green-mark));
 }
 
 .cabin-intro {
@@ -1535,34 +1614,156 @@ section {
 
 .host-inner {
   display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 6px 22px 24px;
+  align-items: flex-start;
+  gap: clamp(18px, 2.6vw, 32px);
+  padding: 10px 22px 28px;
 }
 
 .host-photo {
   flex: none;
-  width: 96px;
+  width: clamp(120px, 15vw, 190px);
 }
 
 .host-photo img {
-  width: 96px;
-  height: 96px;
+  width: 100%;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
-  border-radius: 50%;
+  object-position: center 22%;
+}
+
+.host-text {
+  min-width: 0;
 }
 
 .host-name {
   font-family: var(--jp-mincho);
   font-weight: 700;
-  font-size: 1.06rem;
+  font-size: 1.14rem;
   color: var(--green);
-  margin-bottom: 5px;
+}
+
+.host-name small {
+  font-size: .74rem;
+  font-weight: 500;
+  color: var(--ink-50);
+  letter-spacing: .02em;
+}
+
+.host-nick {
+  font-family: var(--jp-round);
+  font-weight: 500;
+  font-size: .84rem;
+  color: var(--blue-deep);
+  margin-bottom: 14px;
+}
+
+.host-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 14px;
+  font-size: .86rem;
+  line-height: 1.85;
+  margin-bottom: 18px;
+}
+
+.host-facts dt {
+  font-family: var(--jp-round);
+  font-weight: 500;
+  color: var(--ink-50);
+  white-space: nowrap;
+}
+
+.host-facts dd {
+  color: var(--ink-70);
+}
+
+.host-route-label,
+.host-motto-label {
+  font-family: var(--jp-round);
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: .1em;
+  color: var(--green);
+  margin-bottom: 7px;
+}
+
+/* 0才〜120才までの道のり。点線でつないでチラシの signature に寄せる */
+.host-route {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 0;
+  margin-bottom: 18px;
+}
+
+.host-route span {
+  font-family: var(--jp-round);
+  font-weight: 500;
+  font-size: .82rem;
+  color: var(--ink-70);
+  white-space: nowrap;
+}
+
+.host-route span+span::before {
+  content: "";
+  display: inline-block;
+  width: 22px;
+  height: 1px;
+  margin: 0 8px;
+  vertical-align: .28em;
+  background-image: radial-gradient(circle, var(--blue) 1px, transparent 1.2px);
+  background-size: 5px 2px;
+  background-repeat: repeat-x;
+}
+
+.host-route .goal {
+  font-weight: 700;
+  color: var(--orange);
+}
+
+.host-motto {
+  list-style: none;
+  counter-reset: motto;
+  margin-bottom: 18px;
+}
+
+.host-motto li {
+  counter-increment: motto;
+  font-size: .88rem;
+  line-height: 1.95;
+  color: var(--ink);
+}
+
+.host-motto li::before {
+  content: counter(motto);
+  display: inline-grid;
+  place-items: center;
+  width: 1.35em;
+  height: 1.35em;
+  margin-right: 9px;
+  border-radius: 50%;
+  background: var(--green-pale);
+  color: var(--green);
+  font-family: var(--jp-round);
+  font-weight: 700;
+  font-size: .72rem;
+  vertical-align: .1em;
 }
 
 .host-msg {
-  font-size: .9rem;
+  border-left: 3px solid var(--blue);
+  padding-left: 15px;
+  font-size: .88rem;
+  line-height: 2;
   color: var(--ink-70);
+}
+
+.host-msg p+p {
+  margin-top: 10px;
+}
+
+.host-msg p:last-child {
+  color: var(--ink);
 }
 
 /* ==================================================================

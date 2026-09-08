@@ -136,6 +136,7 @@
   <section class="hero" id="hero">
     <img src="./images/hero-river-aerial.jpg"
       alt="四万十川の谷あい。右岸にライダーズイン四万十が見える空撮" class="hero-bg">
+    <p class="hero-strip">The Shimanto River in Kochi, Japan</p>
     <div class="hero-lockup">
       <span class="hero-rs" aria-hidden="true">RS</span>
       <p class="hero-roman">
@@ -188,7 +189,7 @@
         <path d="M43 32V13a13 13 0 0 1 26 0v19z" />
         <path d="M86 32V13a13 13 0 0 1 26 0v19z" />
       </svg>
-      <p class="sec-en">cabin</p>
+      <p class="sec-en">Cabin</p>
     </div>
 
     <div class="container">
@@ -259,10 +260,16 @@
   <!-- ============ 共用スペース ============ -->
   <section class="common" id="common">
     <div class="container">
-      <div class="section-header light">
-        <span class="section-tag">Common Space</span>
-        <h2 class="section-title">共用スペース</h2>
-        <p class="section-lead sunomari">素泊まり以上の素泊まり！</p>
+      <!-- 見出しはカンプ y3888〜4102。かまぼこは中央だけ大きい -->
+      <div class="sec-mark blue">
+        <h2 class="sec-jp">共用スペース</h2>
+        <svg class="arches" viewBox="0 0 106 40" aria-hidden="true" focusable="false">
+          <path d="M0 39.5V26.25a10.75 10.75 0 0 1 21.5 0V39.5z" />
+          <path d="M34.6 39.5V17.85a17.85 17.85 0 0 1 35.7 0V39.5z" />
+          <path d="M83.8 39.5V26.95a10.75 10.75 0 0 1 21.5 0V39.5z" />
+        </svg>
+        <p class="sec-en">Shared area</p>
+        <img src="./images/mark-utensils.svg" alt="" class="sec-utensils" loading="lazy">
       </div>
 
       <div class="common-body">
@@ -311,10 +318,12 @@
   <!-- ============ 料金 ============ -->
   <section class="price" id="price">
     <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Price</span>
-        <h2 class="section-title">ご利用料金</h2>
-        <p class="section-lead">表示価格はすべて税込です</p>
+      <!-- 見出しはカンプ y4669〜4862。¥ はカンプの字形をベクターで抜いたもの -->
+      <div class="sec-mark brown">
+        <h2 class="sec-jp">ご利用料金</h2>
+        <img src="./images/mark-yen.svg" alt="" class="sec-yen" loading="lazy">
+        <p class="sec-en">Price</p>
+        <p class="sec-note">表示価格は全て税込みです</p>
       </div>
 
       <div class="price-grid">
@@ -374,9 +383,10 @@
   <!-- ============ ご利用案内 ============ -->
   <section class="info" id="info">
     <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Information</span>
-        <h2 class="section-title">ご利用案内</h2>
+      <!-- 見出しはカンプ y5509。カンプで Information が付いているのはこのセクション -->
+      <div class="sec-mark red">
+        <h2 class="sec-jp">ご利用案内</h2>
+        <p class="sec-en">Information</p>
       </div>
 
       <div class="checktime-card">
@@ -449,9 +459,10 @@
   <!-- ============ 楽しみ方 ============ -->
   <section class="enjoy" id="enjoy">
     <div class="container">
-      <div class="section-header light">
-        <span class="section-tag">Information</span>
-        <h2 class="section-title">四万十を、めいっぱい</h2>
+      <!-- このセクションはカンプに無い。見出しの形だけ合わせた（英字と色は大村さん未確認） -->
+      <div class="sec-mark">
+        <h2 class="sec-jp">四万十を、めいっぱい</h2>
+        <p class="sec-en">Enjoy</p>
       </div>
       <div class="enjoy-body">
         <figure class="ph enjoy-photo">
@@ -498,9 +509,10 @@
   <!-- ============ アクセス ============ -->
   <section class="access" id="access">
     <div class="container">
-      <div class="section-header">
-        <span class="section-tag">Access</span>
-        <h2 class="section-title">アクセス</h2>
+      <!-- このセクションはカンプに無い。見出しの形だけ合わせた（色は大村さん未確認） -->
+      <div class="sec-mark blue">
+        <h2 class="sec-jp">アクセス</h2>
+        <p class="sec-en">Access</p>
       </div>
       <div class="access-body">
         <div class="access-info">
@@ -523,15 +535,47 @@
         </div>
       </div>
 
+      <!-- 本文は2026-09-08に川下さん本人から届いた原稿。原文は
+           01_プロジェクト/ライダーズイン四万十_サイト制作/管理人紹介_川下さん提供_2026-09-08.md
+           ※原稿には「1960年12月17日生」とあるが、公開ページに完全な生年月日を出すのは
+             避けて「1960年生まれ」にしてある。戻すかどうかは川下さんに確認する -->
       <details class="host-details">
         <summary>管理人について</summary>
         <div class="host-inner">
           <figure class="host-photo">
-            <img src="./images/host.jpg" alt="管理人の川下徳之さん" loading="lazy">
+            <img src="./images/host-kawachan.jpg"
+              alt="キャビンの前で両手を広げる管理人の川下徳之さん" loading="lazy">
           </figure>
           <div class="host-text">
-            <p class="host-name">管理人　川下 徳之</p>
-            <p class="host-msg">沢山のご予約をお待ちしております！</p>
+            <p class="host-name">管理人　川下 徳之<small>（かわした のりゆき）</small></p>
+            <p class="host-nick">通称：川ちゃん</p>
+
+            <dl class="host-facts">
+              <dt>出身</dt>
+              <dd>静岡県水窪<span class="nb">（みさくぼ）</span>町<br class="br-sp">（現・浜松市）</dd>
+              <dt>前職</dt>
+              <dd>電電公社（現NTT）</dd>
+              <dt>生まれ</dt>
+              <dd>1960年</dd>
+            </dl>
+
+            <p class="host-route-label">これまでとこれから</p>
+            <p class="host-route">
+              <span>0才</span><span>水窪町</span><span>18才</span><span>名古屋</span>
+              <span>36才</span><span>四万十町十和</span><span class="goal">120才（目標）</span>
+            </p>
+
+            <p class="host-motto-label">座右の銘</p>
+            <ol class="host-motto">
+              <li>笑う門には福来たる</li>
+              <li>思い立ったが吉日</li>
+              <li>我事において後悔せず</li>
+            </ol>
+
+            <blockquote class="host-msg">
+              <p>人生設計は、今も自由気ままに生きていますが、職業はと問われれば…「自由人」と答えられるように120才まで生きたいと思います。110才くらいで、「ゆくゆくは◯◯したいね〜」と答えられるように健全な精神構造であり続けること。</p>
+              <p>出会いが財産と考えますから、ライダーズで財産を増やすべく、長生きしてお待ちしています。</p>
+            </blockquote>
           </div>
         </div>
       </details>
