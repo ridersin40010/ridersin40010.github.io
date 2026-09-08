@@ -1613,22 +1613,23 @@ section {
 }
 
 .host-inner {
-  display: flex;
-  align-items: flex-start;
-  gap: clamp(18px, 2.6vw, 32px);
-  padding: 10px 22px 28px;
+  display: grid;
+  grid-template-columns: minmax(0, clamp(220px, 30%, 330px)) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(20px, 3.2vw, 42px);
+  padding: 14px 22px 32px;
 }
 
+/* 川ちゃんの写真はトリミングしない。両手を広げた形と、足元の
+   「ライダーズイン四万十」の看板まで入って一枚の絵になっている */
 .host-photo {
-  flex: none;
-  width: clamp(120px, 15vw, 190px);
+  background: var(--paper);
+  box-shadow: var(--shadow);
 }
 
 .host-photo img {
   width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  object-position: center 22%;
+  height: auto;
 }
 
 .host-text {
@@ -1944,6 +1945,17 @@ section {
 
   .br-sp {
     display: inline;
+  }
+
+  /* 管理人紹介は1列に。写真は縦長なので、画面いっぱいだと長くなりすぎる */
+  .host-inner {
+    grid-template-columns: 1fr;
+    padding: 14px 16px 26px;
+  }
+
+  .host-photo {
+    max-width: 300px;
+    margin-inline: auto;
   }
 
   /* カンプは写真が画面の一番上から始まる。スマホではヘッダーを出さない
