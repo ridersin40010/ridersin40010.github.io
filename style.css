@@ -53,6 +53,22 @@
   --jp-round: "Zen Maru Gothic", "Noto Sans JP", sans-serif;
   --roman: "Cinzel", "Trajan Pro", "Times New Roman", serif;
 
+
+  /* --- ヒーローの位置（カンプ2026-09-08の実測値）---------------------
+     ここが唯一の出どころ。PC・スマホ横長版のどちらもこの変数を使う。
+     数値の根拠は .hero-rs のコメントを見ること */
+  --hero-strip-top: 4.07%;
+  --hero-rs-left: 4.11%;
+  --hero-rs-top: 31.83%;
+  --hero-rs-size: 34.1vw;
+  --hero-roman-top: 45.41%;
+  --hero-roman-width: 58.4%;
+  /* カンプの実測は63.98%だが、そこだと2行目が川底の岩にかかって白文字が沈む。
+     写真の明るさを1%刻みで走査した結果、59%がいちばん暗い
+     （明るい画素 63.98%→6.7% / 59%→2.0%）。読みやすさを優先して5ポイント上げている。
+     ※スマホ縦長版は切り取りが違うので別値（62%）。そちらは走査上ほぼ最適 */
+  --hero-catch-top: 59%;
+
   --wrap: 1120px;
   /* チラシは写真も囲みもすべて直角。角丸にするのは「設備等」のような
      小さいラベルのピルだけ、という切り分けにしている */
@@ -103,7 +119,9 @@ figcaption,
 .lead-sub,
 .hero2-catch {
   word-break: auto-phrase;
-  text-wrap: pretty;
+  /* pretty は Safari だと全部の行の長さを均そうとして、指定した改行の手前でも折れる。
+     Chrome と iPhone で折れ方をそろえるため普通の折り返しにしている（2026-09-14） */
+  text-wrap: wrap;
 }
 
 h1,
@@ -375,13 +393,13 @@ table {
 .hero-strip {
   position: absolute;
   z-index: 2;
-  top: 3.4%;
+  top: var(--hero-strip-top);
   left: 0;
   right: 0;
   text-align: center;
   font-family: var(--roman);
   font-weight: 700;
-  font-size: clamp(.62rem, 2.42vw, 2rem);
+  font-size: clamp(.62rem, 2.58vw, 2rem);
   line-height: 1.2;
   letter-spacing: .22em;
   text-indent: .22em;
@@ -399,27 +417,31 @@ table {
 /* 巨大RS：カンプは TrajanPro-Bold 436pt（＝34.1vw）・x54〜636・y136 */
 .hero-rs {
   position: absolute;
-  /* 字送りを0にすると字の幅がカンプの45.5%とぴったり合う（Cinzelは
-     Trajanより細いので、詰めずに置くのが正解だった）。
-     top はブラウザで実測して、字の上端がカンプの15.8%に来る値に調整済み */
-  left: 3.8%;
-  top: 11.5%;
+  /* カンプ2026-09-08 実測：RSの行ボックス上端はヒーロー高の22.64%、左端4.11%、幅45.5%。
+     ただし書体が Trajan（ascender .985）→ Cinzel（ascender .976 / descender .371）に
+     替わっているため、line-height:1 では字の載る位置がずれる。
+     ベースラインがカンプと同じ72.56%に来る値を逆算して top:31.83%（ブラウザで実測）。
+     字送りは0。Cinzelは細いので詰めないほうが幅がカンプと合う。 */
+  left: var(--hero-rs-left);
+  top: var(--hero-rs-top);
   font-family: var(--roman);
   font-weight: 700;
-  font-size: 34.1vw;
+  font-size: var(--hero-rs-size);
   line-height: 1;
   letter-spacing: 0;
-  /* カンプPDFのグラフィックス状態が ca 0.55。実測値に合わせている */
+  /* カンプPDFのグラフィックス状態が ca 0.55 */
   color: rgba(255, 255, 255, .55);
   white-space: nowrap;
 }
 
 /* ワードマーク：カンプは x218〜529（中心29.2%）・y305〜485 */
 .hero-roman {
+  /* カンプ2026-09-08：1行目のベースラインが枠の 49.99%。
+     Cinzel のメトリクスで逆算して top:45.41%（実測） */
   position: absolute;
   left: 0;
-  top: 34.5%;
-  width: 58.4%;
+  top: var(--hero-roman-top);
+  width: var(--hero-roman-width);
   text-align: center;
   font-family: var(--roman);
   font-weight: 700;
@@ -465,10 +487,11 @@ table {
 
 /* カンプ：明朝30pt 白・中央・字送り +0.27em・y1242/1292（写真の上から62%） */
 .hero2-catch {
+  /* カンプ2026-09-08：ヒーロー②の高さに対して上端63.98%（前は60.7%）*/
   position: absolute;
   left: 0;
   right: 0;
-  top: 60.7%;
+  top: var(--hero-catch-top);
   text-align: center;
   font-family: var(--jp-mincho);
   font-weight: 500;
@@ -1133,6 +1156,49 @@ section {
   font-weight: 700;
 }
 
+/* 川ちゃん指摘（2026-09-13）：キャビンの「1棟4名様まで」の直下に注意書き */
+.feature-card .feature-advice {
+  margin-top: 10px;
+  padding: 9px 12px;
+  background: var(--blue-mist);
+  border-left: 3px solid var(--blue);
+  font-size: .82rem;
+  line-height: 1.8;
+  color: var(--ink);
+}
+
+.feature-card .feature-advice strong {
+  color: var(--blue-deep);
+  font-weight: 700;
+}
+
+/* 川ちゃんの指摘（2026-09-13）：4名だと狭いので3名までを勧める。
+   注意ではなく提案として読ませたいので、赤ではなく青系にしている */
+.price-advice {
+  background: var(--blue-mist);
+  border-left: 3px solid var(--blue);
+  padding: 11px 14px !important;
+  margin-top: 4px;
+  color: var(--ink) !important;
+}
+
+.price-advice::before {
+  content: none !important;
+}
+
+.price-advice strong {
+  color: var(--blue-deep);
+  font-weight: 700;
+}
+
+/* 製氷機の氷は有料（2026-09-13 川ちゃん指摘） */
+.common-ice {
+  display: block;
+  margin-top: 7px;
+  font-size: .86em;
+  color: var(--ink-70);
+}
+
 .price-caution {
   color: var(--red) !important;
   font-weight: 500;
@@ -1574,6 +1640,28 @@ section {
   display: block;
   height: 100%;
   min-height: 400px;
+}
+
+/* パンフレットの地図（2026-09-13 川ちゃんのご希望で追加）。
+   スマホでは細かいので、タップで拡大できるよう素のまま置いている */
+.access-flyer-map {
+  margin-top: clamp(20px, 3vw, 34px);
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.access-flyer-map img {
+  width: 100%;
+  height: auto;
+}
+
+.access-flyer-map figcaption {
+  font-family: var(--jp-round);
+  font-weight: 500;
+  font-size: .8rem;
+  line-height: 1.7;
+  color: var(--ink-70);
+  padding: 11px 14px 13px;
 }
 
 /* 管理人（そっと折りたたむ） */
@@ -2142,5 +2230,83 @@ section {
 
   .site-footer {
     padding-bottom: 46px;
+  }
+}
+
+/* ==================================================================
+   見出しを灰色の帯の上下まん中に置く（2026-09-13 梟さん指示）
+   対象：共用スペース・ご利用料金・ご利用案内・アクセス。
+   もともと「section の上余白」＋「見出しの上余白」が二重になっていて、
+   見出しの上が下の約3倍空いていた（スマホ 88px／24px、PC 142px／44px）。
+   section の上余白を0にして、見出しの上下を同じ値にそろえる。
+   値はスマホ・PCとも、元の上下の合計を半分ずつに分けたもの。
+   目で見てずれていたら、--band-gap-adjust で見出しだけ上下に動かす。
+   メディアクエリより後ろに置いて、スマホ側の指定にも勝たせている。
+   ================================================================== */
+:root {
+  --band-gap: clamp(56px, 7.25vw, 93px);
+  --band-gap-adjust: 0px;
+}
+
+.common,
+.price,
+.info,
+.access {
+  padding-top: 0;
+}
+
+.common .sec-mark,
+.price .sec-mark,
+.info .sec-mark,
+.access .sec-mark {
+  padding-top: calc(var(--band-gap) + var(--band-gap-adjust));
+  padding-bottom: calc(var(--band-gap) - var(--band-gap-adjust));
+}
+
+/* ご利用料金は最後が文字の行（表示価格は全て税込みです）で、行の下に行間ぶんの
+   すき間が出る。そのぶん（実測3.8px）だけ下を詰めて、上下を同じにしている */
+.price .sec-mark {
+  padding-bottom: calc(var(--band-gap) - var(--band-gap-adjust) - 3.8px);
+}
+
+/* ==================================================================
+   スマホの改行調整（2026-09-13 梟さんがスマホで見ながら指示）
+   改行位置は index.html の <br class="br-sp">（スマホだけ有効）で決めている。
+   ================================================================== */
+/* 「調味料」と「電子レンジ」の間の「・」。スマホは改行で区切るので出さない */
+.sep-pc { display: inline; }
+
+/* 注意書きは左揃え（中央揃えだと行頭がそろわない） */
+.feature-card .feature-advice,
+.price-advice {
+  text-align: left;
+}
+
+@media (max-width: 700px) {
+  .sep-pc { display: none; }
+
+  /* ※駐車・駐輪スペースは〜 は左揃え */
+  .cabin-note {
+    text-align: left;
+  }
+}
+
+@media (max-width: 700px) {
+  /* 紹介文のかたまりは画面の真ん中、各行の頭は左でそろえる（2026-09-14 梟さん指示）。
+     幅をいちばん長い行に合わせて左右中央に置き、中は左揃えにしている */
+  .cabin-intro p:not(.cabin-note) {
+    width: fit-content;
+    margin-inline: auto;
+    text-align: left;
+  }
+}
+
+@media (max-width: 700px) {
+  /* 行はすべて <br> で決めてあるので、スマホではこの紹介文だけ自動の折り返しを止める。
+     幅を最長行ぴったりにしているため、iPhone で文字幅がわずかに違うだけで
+     「約6畳の天然木／フローリング」と折れていた（2026-09-14 大村さんのiPhoneで確認）。
+     最長行は13文字なので、320pxの小さい機種でもはみ出さない */
+  .cabin-intro p:not(.cabin-note) {
+    white-space: nowrap;
   }
 }

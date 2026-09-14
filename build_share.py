@@ -50,6 +50,84 @@ REVIEW_NOTE = """
   </div>
 """
 
+# ── 大村さん案（横長）の差分CSS ────────────────────────────────
+# 本体の style.css は触らず、ビルド時にこれを後ろに足して上書きする。
+# 値はすべて PC 側（＝カンプ）の指定をそのまま持ってきたもの。
+HERO_WIDE_CSS = """
+/* ==== 大村さん案：スマホでもPDF・PCと同じ横長のサイズ感にする ====
+   既定の版（スマホは縦長3:4）との比較用。本体CSSは変更していない。
+   位置の数値は style.css の :root 変数をそのまま使うので、
+   カンプに合わせて直すときは style.css だけ直せばこちらにも効く */
+@media (max-width: 700px) {
+  .hero  { aspect-ratio: 1280 / 860; }
+  .hero2 { aspect-ratio: 1280 / 845; }
+
+  .hero-rs {
+    left: var(--hero-rs-left);
+    top: var(--hero-rs-top);
+    transform: none;
+    font-size: var(--hero-rs-size);
+  }
+
+  .hero-roman {
+    left: 0;
+    width: var(--hero-roman-width);
+    top: var(--hero-roman-top);
+  }
+
+  .hero-roman .l1,
+  .hero-roman .l3 { font-size: 3.67vw; }
+  .hero-roman .l2 { font-size: 2.66vw; }
+
+  .hero2-catch {
+    top: var(--hero-catch-top);
+    /* カンプの比率どおりだと375pxで8.8pxになり読めないので、
+       下限だけ12.8pxで止めている。ここも合わせるかは大村さんに要確認 */
+    font-size: clamp(.8rem, 2.34vw, 1.88rem);
+    letter-spacing: .27em;
+    text-indent: .135em;
+  }
+}
+"""
+
+HERO_WIDE_NOTE = """
+  <div class="review-note">
+    <b>確認用｜横長版（{date}）</b> ／ スマホでもPDF・PCと同じ横長のサイズ感にした版です。
+    <span>ヒーローの比率・RSロゴ・キャッチの位置を、すべてPC側（＝パンフのカンプ）の値に揃えています。もう一方のURLは、スマホでは縦長に切った版です。</span>
+  </div>
+"""
+
+# ── 大村さん案②：カンプPDFのヒーロー部分をそのまま画像で貼る比較版 ─────────
+# images/hero-pdf.jpg は 大村さんカンプ_2026-09-08.pdf の y3〜1506（ヒーロー①②と
+# 境目のぼかし込み）を書き出したもの。本体の index.html / style.css は触らない。
+HERO_PDF_HTML = """  <!-- ============ ヒーロー（カンプPDFをそのまま画像で貼った比較版） ============ -->
+  <section class="hero-pdf" id="hero">
+    <img src="./images/hero-pdf.jpg" width="1362" height="1600"
+      alt="四万十川の空撮と、川沿いに並ぶライダーズイン四万十のキャビン">
+    <!-- 画像の中の文字を、検索と読み上げのために本物の文字でも置いておく（画面には出ない） -->
+    <div class="vh">
+      <h1>ライダーズイン四万十　RIDER’S INN SHIMANTO</h1>
+      <p>THE SHIMANTO RIVER IN KOCHI, JAPAN</p>
+      <p>四万十川のほとりで泊まる　四万十川と一緒に眠る</p>
+    </div>
+  </section>
+"""
+
+HERO_PDF_CSS = """
+/* ==== 大村さん案②：ヒーローはカンプPDFをそのまま画像で貼る ==== */
+.hero-pdf { width: 100%; background: #fff; }
+.hero-pdf img { display: block; width: 100%; height: auto; }
+.vh { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+"""
+
+HERO_PDF_NOTE = """
+  <div class="review-note">
+    <b>確認用｜PDF貼り付け版（{date}）</b> ／ ヒーロー部分に、大村さんのカンプPDFをそのまま画像で貼った版です。
+    <span>RS・英字・キャッチ・境目のぼかしまでカンプと同じです。画像なので、スマホでは文字がそのまま縮みます。</span>
+  </div>
+"""
+
 REVIEW_CSS = """
 /* ==== 確認用の帯：この共有ファイルにだけ入っています。本番には含まれません ==== */
 .review-note{background:#221815;color:#fff;font-family:var(--jp-round);font-size:.8rem;
@@ -184,12 +262,22 @@ def inline_images(html, missing):
     return IMG_REF.sub(repl, html)
 
 
-def build(password, date):
+def build(password, date, hero_wide=False, hero_pdf=False):
     html = (ROOT / "index.html").read_text(encoding="utf-8")
     css = (ROOT / "style.css").read_text(encoding="utf-8")
     js = (ROOT / "script.js").read_text(encoding="utf-8")
 
     extra_css = REVIEW_CSS
+    if hero_wide:
+        extra_css += "\n" + HERO_WIDE_CSS
+    if hero_pdf:
+        extra_css += "\n" + HERO_PDF_CSS
+        a = html.find("  <!-- ============ ヒーロー① ")
+        s2 = html.find('<section class="hero2">')
+        e = html.find("</section>", s2)
+        if a < 0 or s2 < 0 or e < 0:
+            sys.exit("!! ヒーロー①②の位置が見つからない（index.html を書き換えた？）")
+        html = html[:a] + HERO_PDF_HTML + html[e + len("</section>"):]
     if password:
         extra_css += "\n  " + GATE_CSS
 
@@ -200,6 +288,9 @@ def build(password, date):
         sys.exit("!! style.css の <link> が見つからない（index.html を書き換えた？）")
 
     # JS を <script> に埋め込む
+    budoux = (ROOT / "budoux-ja.min.js").read_text(encoding="utf-8")
+    html = html.replace('  <script src="budoux-ja.min.js"></script>',
+                        "  <script>\n" + budoux + "\n  </script>")
     html, n = re.subn(r'  <script src="script\.js"></script>',
                       "  <script>\n" + js + "\n  </script>", html)
     if n != 1:
@@ -215,7 +306,7 @@ def build(password, date):
     if missing:
         print("!! 見つからない画像: " + ", ".join(sorted(set(missing))), file=sys.stderr)
 
-    note = REVIEW_NOTE.format(date=date)
+    note = (HERO_PDF_NOTE if hero_pdf else HERO_WIDE_NOTE if hero_wide else REVIEW_NOTE).format(date=date)
 
     if password:
         gate = GATE_HTML.format(logo=data_uri(ROOT / "images" / "logo-mark.svg"))
@@ -234,9 +325,13 @@ def main():
     ap.add_argument("--date", default=REVIEW_DATE, help="帯に出す日付")
     ap.add_argument("--out", action="append", help="出力先（複数指定可）")
     ap.add_argument("--check", action="store_true", help="出力せず既存ファイルとの差だけ見る")
+    ap.add_argument("--hero-wide", action="store_true",
+                    help="大村さん案：スマホでもヒーローを横長にした比較版を作る")
+    ap.add_argument("--hero-pdf", action="store_true",
+                    help="大村さん案②：ヒーローにカンプPDFをそのまま画像で貼った比較版を作る")
     args = ap.parse_args()
 
-    html = build(None if args.no_gate else args.password, args.date)
+    html = build(None if args.no_gate else args.password, args.date, hero_wide=args.hero_wide, hero_pdf=args.hero_pdf)
     outs = [Path(o) for o in args.out] if args.out else DEFAULT_OUTPUTS
 
     for out in outs:
