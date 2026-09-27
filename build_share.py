@@ -372,7 +372,7 @@ def main():
     if not args.check:
         print("\n公開する（URLは変わらない・反映まで1〜3分）：")
         print('  cd "G:/マイドライブ/2nd-Brain/01_制作したWebサイト/実績ポートフォリオ_サイトコード"'
-              ' && git add rs-ridersin-6h2n && git commit -m "ライダーズ確認用を更新" && git push')
+              ' && git add rs-ridersin-p-8k2d && git commit -m "ライダーズ確認用を更新" && git push')
 
 
 if __name__ == "__main__":
