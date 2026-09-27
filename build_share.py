@@ -27,20 +27,25 @@ HTMLファイルにまとめる。CSSとJSは埋め込み、画像は data URI �
 import argparse
 import base64
 import mimetypes
+import datetime
 import re
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 
-# 既定の出力先（2か所とも同じ中身）
+# 既定の出力先（2か所とも同じ中身＝正規の PDF貼り付け版）
+# 2026-09-28：既定を rs-ridersin-6h2n から rs-ridersin-p-8k2d に変えた。
+# 6h2n（縦長版）と w-3m7q（横長版）は 9/15 で更新を止めた版なので、
+# 素で走らせたときに古い版だけが書き換わる事故を防ぐため。
 DEFAULT_OUTPUTS = [
-    ROOT.parent / "実績ポートフォリオ_サイトコード" / "rs-ridersin-6h2n" / "index.html",
+    ROOT.parent / "実績ポートフォリオ_サイトコード" / "rs-ridersin-p-8k2d" / "index.html",
     ROOT.parent.parent / "01_プロジェクト" / "ライダーズイン四万十_サイト制作" / "共有用" / "ライダーズイン四万十_確認用.html",
 ]
 
 PASSWORD = "shimanto"
-REVIEW_DATE = "2026-09-02"
+# 帯に出す日付。既定はビルドした日（--date で上書きできる）
+REVIEW_DATE = datetime.date.today().isoformat()
 
 # 上端の帯の文言。ここを書き換えれば帯の中身が変わる
 REVIEW_NOTE = """
@@ -135,6 +140,17 @@ REVIEW_CSS = """
 .review-note b{color:#7FD4A6;font-weight:700}
 .review-note span{opacity:.72;display:inline-block}
 @media(max-width:700px){.review-note{font-size:.72rem;text-align:left}}
+"""
+
+# 解像度が足りない写真に出す赤い札。確認用ビルドにだけ入れる（本番には出ない）。
+# 目印の class（.ph.lowres）は本体 index.html 側に付いたままでよい。
+REVIEW_LOWRES_CSS = """
+/* ==== 「要・元データ」の札：この確認用ファイルにだけ入っています ==== */
+.ph.lowres::after{content:"要・元データ";position:absolute;top:9px;left:9px;
+  font-family:var(--jp-sans);font-size:.62rem;font-weight:500;letter-spacing:.04em;
+  color:var(--red);background:rgba(255,255,255,.93);border:1px dashed var(--red);
+  border-radius:4px;padding:2px 7px}
+.ph.lowres img{filter:saturate(.9)}
 """
 
 GATE_CSS = """
@@ -267,7 +283,7 @@ def build(password, date, hero_wide=False, hero_pdf=False):
     css = (ROOT / "style.css").read_text(encoding="utf-8")
     js = (ROOT / "script.js").read_text(encoding="utf-8")
 
-    extra_css = REVIEW_CSS
+    extra_css = REVIEW_CSS + REVIEW_LOWRES_CSS
     if hero_wide:
         extra_css += "\n" + HERO_WIDE_CSS
     if hero_pdf:
@@ -289,8 +305,10 @@ def build(password, date, hero_wide=False, hero_pdf=False):
 
     # JS を <script> に埋め込む
     budoux = (ROOT / "budoux-ja.min.js").read_text(encoding="utf-8")
-    html = html.replace('  <script src="budoux-ja.min.js"></script>',
-                        "  <script>\n" + budoux + "\n  </script>")
+    html, n = re.subn(r'  <script src="budoux-ja\.min\.js"></script>',
+                      lambda m: "  <script>\n" + budoux + "\n  </script>", html)
+    if n != 1:
+        sys.exit("!! budoux-ja.min.js の <script> が見つからない（改行の制御が効かなくなる）")
     html, n = re.subn(r'  <script src="script\.js"></script>',
                       "  <script>\n" + js + "\n  </script>", html)
     if n != 1:
@@ -327,11 +345,15 @@ def main():
     ap.add_argument("--check", action="store_true", help="出力せず既存ファイルとの差だけ見る")
     ap.add_argument("--hero-wide", action="store_true",
                     help="大村さん案：スマホでもヒーローを横長にした比較版を作る")
-    ap.add_argument("--hero-pdf", action="store_true",
-                    help="大村さん案②：ヒーローにカンプPDFをそのまま画像で貼った比較版を作る")
+    ap.add_argument("--hero-pdf", dest="hero_pdf", action="store_true", default=True,
+                    help="ヒーローにカンプPDFをそのまま画像で貼る（＝正規版・既定）")
+    ap.add_argument("--no-hero-pdf", dest="hero_pdf", action="store_false",
+                    help="ヒーローを本体のまま（旧・縦長版）にする")
     args = ap.parse_args()
 
-    html = build(None if args.no_gate else args.password, args.date, hero_wide=args.hero_wide, hero_pdf=args.hero_pdf)
+    # 横長版を作るときは、PDF貼り付けのヒーローは使わない
+    hero_pdf = args.hero_pdf and not args.hero_wide
+    html = build(None if args.no_gate else args.password, args.date, hero_wide=args.hero_wide, hero_pdf=hero_pdf)
     outs = [Path(o) for o in args.out] if args.out else DEFAULT_OUTPUTS
 
     for out in outs:

@@ -741,30 +741,26 @@ section {
   padding: 11px 14px 13px;
 }
 
-/* 解像度が足りない写真の印。デザイナーから元データを受け取ったら
-   この class と下の定義ごと削除する */
+/* 解像度が足りない写真の目印。赤い「要・元データ」の札そのものは
+   build_share.py の REVIEW_LOWRES_CSS にあり、確認用ビルドにだけ入る。
+   本番には札は出ないので、この class を残したまま公開して構わない。
+   元データを受け取ったら、その写真から lowres を外す */
 .ph.lowres {
   position: relative;
 }
 
-.ph.lowres::after {
-  content: "要・元データ";
-  position: absolute;
-  top: 9px;
-  left: 9px;
-  font-family: var(--jp-sans);
-  font-size: .62rem;
-  font-weight: 500;
-  letter-spacing: .04em;
-  color: var(--red);
-  background: rgba(255, 255, 255, .93);
-  border: 1px dashed var(--red);
-  border-radius: 4px;
-  padding: 2px 7px;
-}
-
-.ph.lowres img {
-  filter: saturate(.9);
+/* 画面に出さずに、検索と読み上げにだけ渡す文字 */
+.vh {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ==================================================================
@@ -1906,6 +1902,56 @@ section {
   color: rgba(255, 255, 255, .8);
 }
 
+/* PCでは、予約電話のすぐ下に文字つきのSNS導線を見せる。
+   スマホは画面下の固定バーに同じ導線があるため、重複させない。 */
+.reserve-sns {
+  margin-top: 34px;
+}
+
+.reserve-sns > p {
+  margin-bottom: 13px;
+  font-family: var(--jp-round);
+  font-size: .9rem;
+  color: rgba(255, 255, 255, .9);
+}
+
+.reserve-sns-links {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.reserve-sns-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 158px;
+  padding: 12px 22px;
+  border: 1px solid rgba(255, 255, 255, .72);
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+  font-family: var(--jp-sans);
+  font-weight: 700;
+  transition: background .2s, transform .2s;
+}
+
+.reserve-sns-link:hover {
+  background: rgba(255, 255, 255, .24);
+  transform: translateY(-2px);
+}
+
+.reserve-sns-link .ico {
+  width: 21px;
+  height: 21px;
+}
+
+@media (max-width: 700px) {
+  .reserve-sns {
+    display: none;
+  }
+}
+
 /* ==================================================================
    フッター
    ================================================================== */
@@ -2308,5 +2354,321 @@ section {
      最長行は13文字なので、320pxの小さい機種でもはみ出さない */
   .cabin-intro p:not(.cabin-note) {
     white-space: nowrap;
+  }
+}
+
+/* ==================================================================
+   メニュー（2026-09-23 川下さんのご依頼）
+   参考：https://toowashimanto.jp/ 右上に固定したボタンと、全画面のメニュー。
+   1024px以下で出す（それより広い画面はヘッダーの並びで足りるため）。
+   置き場所は仮。大村さんと相談して決める
+   ================================================================== */
+.menu-btn,
+.menu-panel {
+  display: none;
+}
+
+.menu-btn {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 200;
+  width: 64px;
+  height: 64px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 2px 10px rgba(34, 24, 21, .12);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.menu-bars {
+  display: block;
+  width: 24px;
+  height: 15px;
+  position: relative;
+}
+
+.menu-bars i {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--green);
+}
+
+.menu-bars i:nth-child(1) { top: 0; }
+.menu-bars i:nth-child(2) { top: 6.5px; }
+.menu-bars i:nth-child(3) { top: 13px; }
+
+.menu-btn-label {
+  font-family: var(--jp-round);
+  font-weight: 700;
+  font-size: .58rem;
+  letter-spacing: .06em;
+  color: var(--green);
+}
+
+/* --- 開いた中身 --- */
+.menu-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 210;
+  background: var(--paper);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex-direction: column;
+  padding: 0 0 40px;
+}
+
+.menu-panel[hidden] {
+  display: none !important;
+}
+
+.menu-close {
+  align-self: flex-end;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  flex: none;
+}
+
+.menu-close-x {
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.menu-close-x::before,
+.menu-close-x::after {
+  content: "";
+  position: absolute;
+  top: 9px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--green);
+}
+
+.menu-close-x::before { transform: rotate(45deg); }
+.menu-close-x::after { transform: rotate(-45deg); }
+
+.menu-inner {
+  width: min(100% - 48px, 520px);
+  margin-inline: auto;
+}
+
+.menu-lead {
+  font-family: var(--jp-mincho);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: .14em;
+  color: var(--green-mark);
+  margin-bottom: 14px;
+}
+
+.menu-list li + li {
+  border-top: 1px dotted #c9d4d1;
+}
+
+.menu-list a {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 16px 2px;
+  color: var(--ink);
+}
+
+.menu-jp {
+  font-family: var(--jp-round);
+  font-weight: 700;
+  font-size: 1.06rem;
+  letter-spacing: .06em;
+}
+
+.menu-en {
+  font-family: var(--roman);
+  font-weight: 600;
+  font-size: .78rem;
+  letter-spacing: .1em;
+  color: var(--blue);
+  text-transform: uppercase;
+}
+
+.menu-tel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 26px;
+  padding: 15px;
+  background: var(--green);
+  color: #fff;
+}
+
+.menu-tel .ico {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.menu-tel-label {
+  display: block;
+  font-family: var(--jp-round);
+  font-size: .72rem;
+  letter-spacing: .04em;
+  opacity: .92;
+}
+
+.menu-tel-num {
+  display: block;
+  font-family: var(--jp-round);
+  font-weight: 900;
+  font-size: 1.42rem;
+  letter-spacing: .02em;
+}
+
+.menu-sns {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.menu-sns a {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--line);
+  color: var(--blue-deep);
+}
+
+.menu-sns .ico {
+  width: 20px;
+  height: 20px;
+}
+
+/* メニューを開いている間は後ろを動かさない */
+body.menu-open {
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .menu-btn {
+    display: flex;
+  }
+
+  .menu-panel:not([hidden]) {
+    display: flex;
+  }
+}
+
+/* ==================================================================
+   スマホ下部の固定連絡バー（2026-09-24）
+   参考：さくら堂サイトの、画面下に常に見える連絡導線。
+   ライダーズは予約電話を広く、Instagram / Facebookを並べる。
+   ================================================================== */
+.mobile-contact-bar {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  body {
+    /* フッターやボタンが固定バーの下に隠れないようにする */
+    padding-bottom: calc(68px + env(safe-area-inset-bottom));
+  }
+
+  .mobile-contact-bar {
+    position: fixed;
+    z-index: 190;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: 1.9fr 1fr 1fr;
+    min-height: calc(68px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: #fff;
+    border-top: 2px solid #fff;
+    box-shadow: 0 -5px 20px rgba(34, 24, 21, .2);
+    line-height: 1.25;
+  }
+
+  .mobile-contact-bar a {
+    min-width: 0;
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-contact-tel {
+    gap: 7px;
+    padding: 7px 5px;
+    background: var(--green);
+  }
+
+  .mobile-contact-tel .ico {
+    width: 22px;
+    height: 22px;
+    flex: none;
+  }
+
+  .mobile-contact-label,
+  .mobile-contact-number {
+    display: block;
+    white-space: nowrap;
+    font-family: var(--jp-round);
+  }
+
+  .mobile-contact-label {
+    margin-bottom: 2px;
+    font-size: .58rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+  }
+
+  .mobile-contact-number {
+    font-size: clamp(.86rem, 4vw, 1.02rem);
+    font-weight: 900;
+    letter-spacing: .01em;
+  }
+
+  .mobile-contact-sns {
+    flex-direction: column;
+    gap: 3px;
+    padding: 6px 2px;
+    border-left: 2px solid #fff;
+    font-family: var(--jp-sans);
+    font-size: clamp(.55rem, 2.6vw, .68rem);
+    font-weight: 700;
+    letter-spacing: .01em;
+  }
+
+  .mobile-contact-sns .ico {
+    width: 25px;
+    height: 25px;
+  }
+
+  .mobile-contact-instagram {
+    background: #c13584;
+  }
+
+  .mobile-contact-facebook {
+    background: #1877f2;
   }
 }

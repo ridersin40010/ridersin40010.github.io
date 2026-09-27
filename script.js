@@ -99,3 +99,40 @@ updateHeader();
     });
   });
 })();
+
+// ------------------------------------------------------------------
+// メニュー（2026-09-23）右上のボタンで全画面のメニューを開閉する
+// ------------------------------------------------------------------
+(function () {
+  var btn = document.getElementById('menuBtn');
+  var panel = document.getElementById('menuPanel');
+  var closeBtn = document.getElementById('menuClose');
+  if (!btn || !panel) return;
+
+  function open() {
+    panel.hidden = false;
+    document.body.classList.add('menu-open');
+    btn.setAttribute('aria-expanded', 'true');
+    (panel.querySelector('a') || closeBtn).focus({ preventScroll: true });
+  }
+  function close(giveBackFocus) {
+    panel.hidden = true;
+    document.body.classList.remove('menu-open');
+    btn.setAttribute('aria-expanded', 'false');
+    if (giveBackFocus !== false) btn.focus({ preventScroll: true });
+  }
+
+  btn.addEventListener('click', open);
+  if (closeBtn) closeBtn.addEventListener('click', function () { close(); });
+  // 行き先を押したら閉じる（同じページの中の移動なので）
+  panel.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function () { close(false); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !panel.hidden) close();
+  });
+  // 画面が広くなったら閉じる（ヘッダーの並びに戻るため）
+  window.addEventListener('resize', function () {
+    if (!panel.hidden && window.innerWidth > 1024) close(false);
+  });
+})();
