@@ -995,9 +995,8 @@ section {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
   margin-bottom: 34px;
-  /* 元データが来るまでは低解像度なので、拡大されないよう幅を抑える */
-  max-width: 640px;
-  margin-inline: auto;
+  /* max-width: 640px;  ← 削除（2026-09-29・写真を元データに差し替えたため） */
+  /* margin-inline: auto; ← 削除 */
 }
 
 .common-sub .ph img {
@@ -1274,7 +1273,7 @@ section {
 }
 
 .checktime-value small {
-  font-size: .5em;
+  font-size: .68em; /* 2026-09-29：川ちゃん指定で少し大きめに（.5em→.68em） */
   font-weight: 700;
 }
 
@@ -2584,6 +2583,19 @@ body.menu-open {
   display: none;
 }
 
+/* 色はスマホ・PC共通（幅に関わらず同じボタン色にする） */
+.mobile-contact-tel {
+  background: var(--green);
+}
+
+.mobile-contact-instagram {
+  background: #689f38; /* 2026-09-29：#c13584 から変更（梟さん指定・案B 落ち着いた若草色） */
+}
+
+.mobile-contact-facebook {
+  background: #1877f2;
+}
+
 @media (max-width: 700px) {
   body {
     /* フッターやボタンが固定バーの下に隠れないようにする */
@@ -2619,7 +2631,6 @@ body.menu-open {
   .mobile-contact-tel {
     gap: 7px;
     padding: 7px 5px;
-    background: var(--green);
   }
 
   .mobile-contact-tel .ico {
@@ -2664,11 +2675,89 @@ body.menu-open {
     height: 25px;
   }
 
-  .mobile-contact-instagram {
-    background: #c13584;
+  /* Instagram・Facebookの色は幅に関わらず共通のため上（767行付近）で指定 */
+}
+
+/* PCでも連絡先を出しっぱなしにする（2026-09-29）
+   参考：さくら堂サイトの、右下に浮かぶ「電話（白地）＋色つき正方形」の横並び。 */
+@media (min-width: 701px) {
+  .mobile-contact-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 10px;
+    position: fixed;
+    z-index: 150;                 /* メニュー(200/210)より下、本文より上 */
+    right: 20px;
+    bottom: 20px;
+    left: auto;
+    width: auto;
   }
 
-  .mobile-contact-facebook {
-    background: #1877f2;
+  .mobile-contact-bar a {
+    min-width: 0;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(34, 24, 21, .18);
+  }
+
+  .mobile-contact-tel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 64px;
+    padding: 10px 20px;
+    background: #fff;
+    color: var(--green);
+  }
+
+  .mobile-contact-tel .ico {
+    width: 26px;
+    height: 26px;
+    flex: none;
+  }
+
+  .mobile-contact-label,
+  .mobile-contact-number {
+    display: block;
+    white-space: nowrap;
+    font-family: var(--jp-round);
+  }
+
+  .mobile-contact-label {
+    margin-bottom: 2px;
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    color: #767676;
+  }
+
+  .mobile-contact-number {
+    font-size: 1.05rem;
+    font-weight: 900;
+    letter-spacing: .01em;
+    white-space: nowrap;
+  }
+
+  .mobile-contact-sns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 76px;
+    min-height: 64px;
+    padding: 8px;
+    color: #fff;
+    text-align: center;
+    font-family: var(--jp-sans);
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .01em;
+  }
+
+  .mobile-contact-sns .ico {
+    width: 22px;
+    height: 22px;
   }
 }
