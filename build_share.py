@@ -317,9 +317,13 @@ def build(password, date, hero_wide=False, hero_pdf=False):
     if n != 1:
         sys.exit("!! script.js の <script> が見つからない")
 
-    # 検索避けを強める
-    html = html.replace('<meta name="robots" content="noindex, nofollow">',
-                        '<meta name="robots" content="noindex,nofollow,noarchive">')
+    # 検索避け。2026-09-30に本公開したので本体 index.html からは外した。
+    # 確認用の共有ファイルだけは検索に出したくないので、ここで足す。
+    html, n = re.subn(r'  <meta charset="UTF-8">',
+                      '  <meta charset="UTF-8">\n'
+                      '  <meta name="robots" content="noindex,nofollow,noarchive">', html)
+    if n != 1:
+        sys.exit("!! charset の meta が見つからない（検索避けを足せない）")
 
     # 画像を data URI に
     missing = []
