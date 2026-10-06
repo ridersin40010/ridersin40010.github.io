@@ -352,10 +352,12 @@ def main():
     ap.add_argument("--check", action="store_true", help="出力せず既存ファイルとの差だけ見る")
     ap.add_argument("--hero-wide", action="store_true",
                     help="大村さん案：スマホでもヒーローを横長にした比較版を作る")
-    ap.add_argument("--hero-pdf", dest="hero_pdf", action="store_true", default=True,
-                    help="ヒーローにカンプPDFをそのまま画像で貼る（＝正規版・既定）")
+    # 2026-10-06：カンプのヒーローを本体 index.html へ移したので、ここで差し込む必要がなくなった。
+    # （それまでは確認用ビルドにだけ入っていて、本番サイトは古い表紙のままだった）
+    ap.add_argument("--hero-pdf", dest="hero_pdf", action="store_true", default=False,
+                    help="（旧）ヒーローを差し替える。本体に入れたので通常は不要")
     ap.add_argument("--no-hero-pdf", dest="hero_pdf", action="store_false",
-                    help="ヒーローを本体のまま（旧・縦長版）にする")
+                    help="（旧）差し替えをしない。いまの既定")
     args = ap.parse_args()
 
     # 横長版を作るときは、PDF貼り付けのヒーローは使わない

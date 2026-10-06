@@ -749,6 +749,11 @@ section {
   position: relative;
 }
 
+/* ==== ヒーロー：大村さんのカンプをそのまま画像で貼っている（2026-10-06に本体へ移した） ====
+   それまでは確認用ビルドにだけ入れていて、本番の index.html には入っていなかった。 */
+.hero-pdf { width: 100%; background: #fff; }
+.hero-pdf img { display: block; width: 100%; height: auto; }
+
 /* 画面に出さずに、検索と読み上げにだけ渡す文字 */
 .vh {
   position: absolute !important;
